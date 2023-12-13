@@ -1,28 +1,49 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+@php
+    $nav_links = [
+    [
+        'name' =>'Inicio',
+        'route' => route('home'), /* Hay que cambiar la ruta cuando se modifique en el archivo web */
+        'active' =>request()->routeIs('home') /* indicamos si el enlace está activo o no */
+    ],
+    [
+        'name' =>'Profesores/as',
+        'route' => '#',
+        'active' =>false
+    ],
+    [
+        'name' =>'Alumnos/as',
+        'route' => '#',
+        'active' =>false
+    ],
+];
+
+@endphp
+
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 shadow">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('home') }}">
                         <x-application-mark class="block h-9 w-auto" />
+                        {{-- En la carpeta Views/components, encontramos el archivo application-mark.blade.php, en ese archivo podemos cambiar el logotipo. --}}
                     </a>
                 </div>
 
                 <!-- Navigation Links - MENÚ NAVEGACIÓN-->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Inicio') }}
+                    {{-- Los siguientes links son los que salen en el nav principal y que permiten navegar por los diferentes apartados de la web --}}
+
+                    @foreach ($nav_links as $nav_link)
+
+                    <x-nav-link href="{{ $nav_link['route'] }}" :active="$nav_link['active']">
+                        {{ $nav_link['name'] }}
                     </x-nav-link>
 
-                    <x-nav-link  href="" :active="request()->routeIs('Profesores')">
-                        Profesores/as
-                    </x-nav-link>
+                    @endforeach
 
-                    <x-nav-link  href=""  :active="request()->routeIs('alumnos')">
-                        Alumnos/as
-                    </x-nav-link>
 
                 </div>
             </div>
@@ -82,6 +103,7 @@
 
                 <!-- Settings Dropdown -->
                 <div class="ms-3 relative">
+                    @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -130,6 +152,11 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
+
+                    @else
+                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+                        <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                    @endauth
                 </div>
             </div>
 
@@ -146,22 +173,22 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
+    
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
 
-            <x-responsive-nav-link href="" :active="request()->routeIs('profesores')">
-                {{ __('Profesores') }}
-            </x-responsive-nav-link>
+            @foreach ($nav_links as $nav_link)
 
-            <x-responsive-nav-link href="" :active="request()->routeIs('alumnos')">
-                {{ __('Alumnos') }}
+            <x-responsive-nav-link href="{{ $nav_link['route'] }}" :active="$nav_link['active']">
+                {{ $nav_link['name'] }}
             </x-responsive-nav-link>
+            
+            @endforeach
+            
         </div>
 
         <!-- Responsive Settings Options -->
+    @auth
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -233,4 +260,17 @@
             </div>
         </div>
     </div>
+
+    @else
+        <div class="py-1 border-t border-gray-200">
+            <x-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
+                Login
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('register') }}" :active="request()->routeIs('register')">
+                Registro
+            </x-responsive-nav-link>
+        </div>
+
+    @endauth
 </nav>
