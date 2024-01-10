@@ -26,3 +26,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('prueba', function(){
+    return "Acceso correcto a la ruta";
+})->middleware('age');
+
+Route::get('no-autorizado', function(){
+    return "Acceso denegado";
+});
