@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Nota extends Model
+class Note extends Model
 {
     use HasFactory;
 
     //Relación uno a muchos (inversa)
 
-    public function asignatura(){
+    public function subject(){
 
-        return $this->belongsTo('App\Models\Asignatura');
+        return $this->belongsTo('App\Models\Subject');
     }
 
     public function user(){

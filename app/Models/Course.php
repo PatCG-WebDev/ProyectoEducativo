@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Curso extends Model
+class Course extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,9 @@ class Curso extends Model
     
     }
 
-    public function asignatura(){
+    public function subject(){
 
-        return $this->hasMany('App\Models\Asignatura');
+        return $this->hasMany('App\Models\Subject');
     }
 
 

@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Asignatura extends Model
+class Subject extends Model
 {
     use HasFactory;
 
     //Relación uno a muchos (inversa)
 
-    public function curso(){
+    public function course(){
 
-        return $this->belongsTo('App\Models\Curso');
+        return $this->belongsTo('App\Models\Course');
     }
 
 
     //Relación uno a muchos
 
-    public function nota(){
+    public function note(){
 
-        return $this->hasMany('App\Models\Nota');
+        return $this->hasMany('App\Models\Note');
     }
 
         //Relación Muchos a Muchos
