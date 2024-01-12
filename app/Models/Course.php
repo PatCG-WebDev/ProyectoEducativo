@@ -12,7 +12,7 @@ class Course extends Model
 //Relación uno a muchos
     public function users(){
 
-        return $this->hasMany('App\Models\Users');
+        return $this->hasMany('App\Models\User');
     
     }
 

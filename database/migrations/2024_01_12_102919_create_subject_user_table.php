@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notas', function (Blueprint $table) {
+        Schema::create('subject_user', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('subject_id');
+
             $table->foreign('user_id')
                     ->references('id')->on('users')
-                    ->onDelete('set null');
+                    ->onDelete('cascade');
 
-            $table->unsignedBigInteger('subject_id')->nullable();
             $table->foreign('subject_id')
                     ->references('id')->on('subjects')
-                    ->onDelete('set null');
+                    ->onDelete('cascade');
 
-            $table->decimal('value', 4, 2);
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('subject_user');
     }
 };
