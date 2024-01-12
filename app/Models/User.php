@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function curse(){
 
-        return $this->belongsTo('App\Models\Curse');
+        return $this->belongsTo('App\Models\Course');
     }
 
     //Relación uno a muchos
