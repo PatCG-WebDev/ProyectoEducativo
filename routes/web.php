@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Gate; 
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +37,18 @@ Route::get('prueba', function(){
 Route::get('no-autorizado', function(){
     return "Acceso denegado";
 });
+
+///////
+Route::get('reports', function () { 
+    Gate::authorize('see-reports'); 
+    return view('reports');
+})->name('reports');
+
+Route::get('añadir-calificaciones', function () {
+    Gate::authorize('añadir-calificaciones'); 
+    return view('añadir-calificaciones');
+})->name('añadir-calificaciones');
+
+
+
+Route::get('reports', [UserController::class, 'showReports'])->name('reports');

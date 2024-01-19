@@ -5,6 +5,11 @@
         'route' => route('home'), /* Hay que cambiar la ruta cuando se modifique en el archivo web */
         'active' =>request()->routeIs('home') /* indicamos si el enlace está activo o no */
     ],
+    /* [
+        'name' =>'Administrador',
+        'route' => '#',
+        'active' =>false
+    ],
     [
         'name' =>'Profesores/as',
         'route' => '#',
@@ -14,7 +19,7 @@
         'name' =>'Alumnos/as',
         'route' => '#',
         'active' =>false
-    ],
+    ], */
 ];
 
 @endphp
@@ -43,6 +48,18 @@
                     </x-nav-link>
 
                     @endforeach
+
+                    @can('see-reports') 
+                        <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
+                            {{ __('Reportes') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('añadir-calificaciones')
+                        <x-nav-link :href="route('añadir-calificaciones')" :active="request()->routeIs('añadir-calificaciones')">
+                            {{ __('Añadir calificaciones') }}
+                        </x-nav-link>
+                    @endcan
 
 
                 </div>
@@ -184,6 +201,18 @@
             </x-responsive-nav-link>
             
             @endforeach
+
+            @can('see-reports') 
+                <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
+                    {{ __('Reportes') }}
+                </x-responsive-nav-link>
+            @endcan
+            
+            @can('añadir-calificaciones')
+                <x-responsive-nav-link :href="route('añadir-calificaciones')" :active="request()->routeIs('añadir-calificaciones')">
+                    {{ __('Añadir calificaciones') }}
+                </x-responsive-nav-link>
+            @endcan
             
         </div>
 

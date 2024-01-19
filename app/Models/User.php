@@ -18,6 +18,10 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    const PROFILE_ADMINISTRATOR = 1;
+    const PROFILE_TEACHER = 2;
+    const PROFILE_STUDENT = 3;
+
     /**
      * The attributes that are mass assignable.
      *
