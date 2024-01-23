@@ -27,8 +27,13 @@ class AuthServiceProvider extends ServiceProvider
             $user->profile_id == User::PROFILE_ADMINISTRATOR
         );
 
-        Gate::define('añadir-calificaciones', fn(User $user) =>
+        Gate::define('ad-grades', fn(User $user) =>
             $user->profile_id == User::PROFILE_TEACHER
         );
-        }
+
+        Gate::define('my-subjects', fn(User $user) =>
+            $user->profile_id == User::PROFILE_STUDENT
+        );
+
+    }
 }

@@ -30,9 +30,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('prueba', function(){
-    return "Acceso correcto a la ruta";
-})->middleware('age');
 
 Route::get('no-autorizado', function(){
     return "Acceso denegado";
@@ -44,11 +41,20 @@ Route::get('reports', function () {
     return view('reports');
 })->name('reports');
 
-Route::get('añadir-calificaciones', function () {
-    Gate::authorize('añadir-calificaciones'); 
-    return view('añadir-calificaciones');
-})->name('añadir-calificaciones');
+Route::get('grades', function () {
+    Gate::authorize('ad-grades'); 
+    return view('grades');
+})->name('grades');
+
+
+Route::get('subjects', function () {
+    Gate::authorize('my-subjects'); 
+    return view('subjects');
+})->name('subjects');
 
 
 
-Route::get('reports', [UserController::class, 'showReports'])->name('reports');
+/* Route::get('reports', [UserController::class, 'showReports'])->name('reports');
+ */
+//muestra asignaturas de alumno logueado
+/* Route::get('/mis-asignaturas', [UserController::class, 'mySubjects'])->name('my-subjects'); */

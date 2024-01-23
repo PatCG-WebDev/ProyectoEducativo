@@ -19,9 +19,9 @@ class Subject extends Model
 
     //Relación uno a muchos
 
-    public function note(){
+    public function grade(){
 
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany('App\Models\Grade');
     }
 
         //Relación Muchos a Muchos

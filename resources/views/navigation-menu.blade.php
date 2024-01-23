@@ -49,17 +49,24 @@
 
                     @endforeach
 
-                    @can('see-reports') 
+                    @can('see-reports', Auth::user()) 
                         <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                             {{ __('Reportes') }}
                         </x-nav-link>
                     @endcan
 
-                    @can('añadir-calificaciones')
-                        <x-nav-link :href="route('añadir-calificaciones')" :active="request()->routeIs('añadir-calificaciones')">
+                    @can('ad-grades', Auth::user())
+                        <x-nav-link :href="route('grades')" :active="request()->routeIs('grades')">
                             {{ __('Añadir calificaciones') }}
                         </x-nav-link>
                     @endcan
+                    
+                    @can('my-subjects', Auth::user())
+                        <x-nav-link :href="route('subjects')" :active="request()->routeIs('subjects')">
+                            {{ __('Mis asignaturas') }}
+                        </x-nav-link>
+                    @endcan
+    
 
 
                 </div>
@@ -202,19 +209,25 @@
             
             @endforeach
 
-            @can('see-reports') 
-                <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
+            @can('see-reports', Auth::user()) 
+                <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                     {{ __('Reportes') }}
-                </x-responsive-nav-link>
+                </x-nav-link>
             @endcan
-            
-            @can('añadir-calificaciones')
-                <x-responsive-nav-link :href="route('añadir-calificaciones')" :active="request()->routeIs('añadir-calificaciones')">
+
+            @can('añadir-calificaciones', Auth::user())
+                <x-nav-link :href="route('añadir-calificaciones')" :active="request()->routeIs('añadir-calificaciones')">
                     {{ __('Añadir calificaciones') }}
-                </x-responsive-nav-link>
+                </x-nav-link>
             @endcan
             
-        </div>
+            @can('mis-asiganaturas', Auth::user())
+                <x-nav-link :href="route('my-subjects')" :active="request()->routeIs('my-subjects')">
+                    {{ __('Mis asignaturas') }}
+                </x-nav-link>
+            @endcan
+                
+            </div>
 
         <!-- Responsive Settings Options -->
     @auth

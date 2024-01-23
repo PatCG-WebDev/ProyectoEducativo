@@ -78,9 +78,9 @@ class User extends Authenticatable
 
     //Relación uno a muchos
 
-    public function note(){
+    public function grade(){
 
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany('App\Models\Grade');
     
     }
 
