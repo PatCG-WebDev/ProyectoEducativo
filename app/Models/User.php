@@ -71,22 +71,22 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Profile');
     }
 
-    public function curse(){
+    public function course(){
 
         return $this->belongsTo('App\Models\Course');
     }
 
     //Relación uno a muchos
 
-    public function grade(){
+    public function note(){
 
-        return $this->hasMany('App\Models\Grade');
+        return $this->hasMany('App\Models\Note');
     
     }
 
     //Relación Muchos a Muchos
 
-    public function subject(){
+    public function subjects(){
         
         return $this->belongsToMany('App\Models\Subject');
     }

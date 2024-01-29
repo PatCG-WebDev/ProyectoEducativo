@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Gate; 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\NoteController;
+
 
 
 /*
@@ -37,24 +41,23 @@ Route::get('no-autorizado', function(){
 
 ///////
 Route::get('reports', function () { 
-    Gate::authorize('see-reports'); 
+    Gate::authorize('seeReports'); 
     return view('reports');
 })->name('reports');
 
-Route::get('grades', function () {
-    Gate::authorize('ad-grades'); 
-    return view('grades');
-})->name('grades');
+/* Route::get('notes', function () {
+    Gate::authorize('addNotes'); 
+    return view('addNotes');
+})->name('addNotes'); */
 
+Route::get('courses', [CourseController::class, 'showCourses']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza
+    ->middleware('can:showCourses') // Puedes usar middleware en lugar de Gate::authorize
+    ->name('showCourses');
 
-Route::get('subjects', function () {
-    Gate::authorize('my-subjects'); 
-    return view('subjects');
-})->name('subjects');
+Route::get('subjects', [SubjectController::class, 'mySubjects']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza
+    ->middleware('can:mySubjects') // Puedes usar middleware en lugar de Gate::authorize
+    ->name('mySubjects');
 
+Route::get('notes/{subject_id}', [NoteController::class, 'showNotesBySubject'])
+    ->name('showNotesBySubject'); // Ver asignaturas del alumno logueado
 
-
-/* Route::get('reports', [UserController::class, 'showReports'])->name('reports');
- */
-//muestra asignaturas de alumno logueado
-/* Route::get('/mis-asignaturas', [UserController::class, 'mySubjects'])->name('my-subjects'); */

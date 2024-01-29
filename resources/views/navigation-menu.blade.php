@@ -49,20 +49,21 @@
 
                     @endforeach
 
-                    @can('see-reports', Auth::user()) 
+
+                    @can('seeReports', Auth::user()) 
                         <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                             {{ __('Reportes') }}
                         </x-nav-link>
                     @endcan
 
-                    @can('ad-grades', Auth::user())
-                        <x-nav-link :href="route('grades')" :active="request()->routeIs('grades')">
-                            {{ __('Añadir calificaciones') }}
+                    @can('showCourses', Auth::user())
+                        <x-nav-link :href="route('showCourses')" :active="request()->routeIs('showCourses')">
+                            {{ __('Cursos') }}
                         </x-nav-link>
                     @endcan
                     
-                    @can('my-subjects', Auth::user())
-                        <x-nav-link :href="route('subjects')" :active="request()->routeIs('subjects')">
+                    @can('mySubjects', Auth::user())
+                        <x-nav-link :href="route('mySubjects')" :active="request()->routeIs('mySubjects')">
                             {{ __('Mis asignaturas') }}
                         </x-nav-link>
                     @endcan
@@ -209,20 +210,20 @@
             
             @endforeach
 
-            @can('see-reports', Auth::user()) 
+            @can('seeReports', Auth::user()) 
                 <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                     {{ __('Reportes') }}
                 </x-nav-link>
             @endcan
 
-            @can('añadir-calificaciones', Auth::user())
-                <x-nav-link :href="route('añadir-calificaciones')" :active="request()->routeIs('añadir-calificaciones')">
-                    {{ __('Añadir calificaciones') }}
+            @can('showCourses', Auth::user())
+                <x-nav-link :href="route('showCourses')" :active="request()->routeIs('showCourses')">
+                    {{ __('Cursos') }}
                 </x-nav-link>
             @endcan
             
-            @can('mis-asiganaturas', Auth::user())
-                <x-nav-link :href="route('my-subjects')" :active="request()->routeIs('my-subjects')">
+            @can('mySubjects', Auth::user())
+                <x-nav-link :href="route('mySubjects')" :active="request()->routeIs('mySubjects')">
                     {{ __('Mis asignaturas') }}
                 </x-nav-link>
             @endcan
