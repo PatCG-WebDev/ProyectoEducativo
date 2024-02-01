@@ -25,6 +25,8 @@ return new class extends Migration
                     ->onDelete('set null');
 
             $table->decimal('value', 4, 2);
+            $table->string('exam');
+            $table->string('comment');
             $table->timestamps();
         });
     }

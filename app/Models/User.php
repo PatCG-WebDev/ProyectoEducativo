@@ -71,10 +71,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Profile');
     }
 
-    public function course(){
-
-        return $this->belongsTo('App\Models\Course');
-    }
+    
 
     //Relación uno a muchos
 
@@ -89,6 +86,11 @@ class User extends Authenticatable
     public function subjects(){
         
         return $this->belongsToMany('App\Models\Subject');
+    }
+
+    public function course(){
+
+        return $this->belongsToMany('App\Models\Course');
     }
 
 

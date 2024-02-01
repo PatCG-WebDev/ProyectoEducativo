@@ -9,17 +9,17 @@ class Course extends Model
 {
     use HasFactory;
 
-//Relación uno a muchos
-    public function users(){
-
-        return $this->hasMany('App\Models\User');
-    
-    }
-
+    // Relación muchos a muchos
     public function subject(){
 
-        return $this->hasMany('App\Models\Subject');
+        return $this->belongsToMany('App\Models\Subject');
     }
 
+
+    public function users(){
+
+        return $this->belongsToMany('App\Models\User');
+
+    }
 
 }

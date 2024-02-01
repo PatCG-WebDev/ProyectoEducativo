@@ -15,6 +15,7 @@ class CourseController extends Controller
         // Obtener las asignaturas del alumno logueado
         $user = Auth::user();
         $courses = $user->courses;
+        var_dump($courses); die();
         
 
        /*  if($courses == null){

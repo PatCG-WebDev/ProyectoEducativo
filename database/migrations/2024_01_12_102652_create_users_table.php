@@ -19,11 +19,6 @@ return new class extends Migration
                     ->references('id')->on('profiles')
                     ->onDelete('set null');
 
-            $table->unsignedBigInteger('course_id')->nullable();
-            $table->foreign('course_id')
-                    ->references('id')->on('courses')
-                    ->onDelete('set null');
-
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
