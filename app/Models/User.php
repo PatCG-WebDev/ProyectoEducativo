@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function profile(){
 
-        return $this->belongsTo('App\Models\Profile');
+        return $this->belongsTo(Profile::class);
     }
 
     
@@ -77,7 +77,7 @@ class User extends Authenticatable
 
     public function note(){
 
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany(Note::class);
     
     }
 
@@ -85,12 +85,12 @@ class User extends Authenticatable
 
     public function subjects(){
         
-        return $this->belongsToMany('App\Models\Subject');
+        return $this->belongsToMany(Subject::class);
     }
 
-    public function course(){
+    public function courses(){
 
-        return $this->belongsToMany('App\Models\Course');
+        return $this->belongsToMany(Course::class);
     }
 
 

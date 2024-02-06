@@ -12,14 +12,15 @@ class Course extends Model
     // Relación muchos a muchos
     public function subject(){
 
-        return $this->belongsToMany('App\Models\Subject');
+        return $this->belongsToMany(Subject::class);
     }
 
 
     public function users(){
 
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany(User::class);
 
     }
+
 
 }

@@ -13,7 +13,7 @@ class Subject extends Model
 
     public function course(){
 
-        return $this->belongsTo('App\Models\Course');
+        return $this->belongsTo(Course::class);
     }
 
 
@@ -21,14 +21,14 @@ class Subject extends Model
 
     public function note(){
 
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany(Note::class);
     }
 
         //Relación Muchos a Muchos
 
     public function user(){
         
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany(User::class);
     }
     
     

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,17 +23,6 @@ class UserController extends Controller
         return view('reports', compact('users'));
     }
 
-
-    public function mySubjects()
-    {
-        // Obtener las asignaturas del alumno logueado
-        $user = Auth::user();
-        $subjects = $user->subjects;
-
-
-        // Retornar la vista con las asignaturas
-        return view('subjects', compact('subjects'));
-}
 
     //añadir notas
 /*     public function addNotes($id) 

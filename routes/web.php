@@ -50,14 +50,23 @@ Route::get('reports', function () {
     return view('addNotes');
 })->name('addNotes'); */
 
-Route::get('courses', [CourseController::class, 'showCourses']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza
-    ->middleware('can:showCourses') // Puedes usar middleware en lugar de Gate::authorize
-    ->name('showCourses');
+Route::get('courses', [CourseController::class, 'showCoursesByTeacher']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza
+    ->middleware('can:showCoursesByTeacher') // Puedes usar middleware en lugar de Gate::authorize
+    ->name('showCoursesByTeacher');
 
-Route::get('subjects', [SubjectController::class, 'mySubjects']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza
-    ->middleware('can:mySubjects') // Puedes usar middleware en lugar de Gate::authorize
-    ->name('mySubjects');
+Route::get('courses/users/{course_id}', [CourseController::class, 'showUsersInCourse'])
+    ->name('showUsersInCourse');
+
+Route::get('courses/{course_id}/subjects', [CourseController::class, 'showSubjectsInCourse'])
+/*     ->middleware(['auth', 'can:accessSubjectsInCourse']) */
+    ->name('showSubjectsInCourse');
+
+Route::get('subjects', [SubjectController::class, 'showSubjectsByStudent']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza
+    ->middleware('can:showSubjectsByStudent') // Puedes usar middleware en lugar de Gate::authorize
+    ->name('showSubjectsByStudent');
 
 Route::get('notes/{subject_id}', [NoteController::class, 'showNotesBySubject'])
     ->name('showNotesBySubject'); // Ver asignaturas del alumno logueado
 
+
+    

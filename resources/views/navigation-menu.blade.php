@@ -56,14 +56,14 @@
                         </x-nav-link>
                     @endcan
 
-                    @can('showCourses', Auth::user())
-                        <x-nav-link :href="route('showCourses')" :active="request()->routeIs('showCourses')">
+                    @can('showCoursesByTeacher', Auth::user())
+                        <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
                             {{ __('Cursos') }}
                         </x-nav-link>
                     @endcan
                     
-                    @can('mySubjects', Auth::user())
-                        <x-nav-link :href="route('mySubjects')" :active="request()->routeIs('mySubjects')">
+                    @can('showSubjectsByStudent', Auth::user())
+                        <x-nav-link :href="route('showSubjectsByStudent')" :active="request()->routeIs('showSubjectsByStudent')">
                             {{ __('Mis asignaturas') }}
                         </x-nav-link>
                     @endcan
@@ -216,14 +216,14 @@
                 </x-nav-link>
             @endcan
 
-            @can('showCourses', Auth::user())
-                <x-nav-link :href="route('showCourses')" :active="request()->routeIs('showCourses')">
+            @can('showCoursesByTeacher', Auth::user())
+                <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
                     {{ __('Cursos') }}
                 </x-nav-link>
             @endcan
             
-            @can('mySubjects', Auth::user())
-                <x-nav-link :href="route('mySubjects')" :active="request()->routeIs('mySubjects')">
+            @can('showSubjectsByStudent', Auth::user())
+                <x-nav-link :href="route('showSubjectsByStudent')" :active="request()->routeIs('showSubjectsByStudent')">
                     {{ __('Mis asignaturas') }}
                 </x-nav-link>
             @endcan

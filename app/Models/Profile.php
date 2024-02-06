@@ -13,7 +13,7 @@ class Profile extends Model
 //Relación uno a muchos
 public function users(){
 
-    return $this->hasMany('App\Models\User');
+    return $this->hasMany(User::class);
 
 }
 
