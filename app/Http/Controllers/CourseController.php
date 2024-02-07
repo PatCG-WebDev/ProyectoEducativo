@@ -42,15 +42,5 @@ class CourseController extends Controller
       
     }
 
-    /* ¡public function showUsersInCourse($courseId)
-    {
-        
-        $course = Course::find($courseId);
-        $users = $course->users;
-        
-        return view('showUsersInCourse', compact('course', 'users'));
-    }
- */
-
     
 }

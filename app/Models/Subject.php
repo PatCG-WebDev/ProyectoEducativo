@@ -26,7 +26,7 @@ class Subject extends Model
 
         //Relación Muchos a Muchos
 
-    public function user(){
+    public function users(){
         
         return $this->belongsToMany(User::class);
     }
