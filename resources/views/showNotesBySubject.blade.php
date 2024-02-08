@@ -11,10 +11,10 @@
                 {{ __('Mis Notas de '.$subject->name) }}
             </h2>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
+                <div class="p-6 bg-white border-b border-gray-200 rounded-lg shadow-lg">
                     @if ($notes->count() > 0)
                         <table class="min-w-full table-auto border">
-                            <thead class="bg-gray-200">
+                            <thead class="bg-indigo-500 text-white">
                                 <tr>
                                     <th class="py-2 px-4 border">Examen</th>
                                     <th class="py-2 px-4 border">Nota</th>
@@ -22,8 +22,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($notes as $note)
-                                    <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-gray-100' : '' }}">
+                                @foreach ($notes as $index => $note)
+                                    <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
                                         <td class="py-2 px-4 border">{{ $note->exam }}</td>
                                         <td class="py-2 px-4 border">{{ $note->value }}</td>
                                         <td class="py-2 px-4 border">{{ $note->comment }}</td>

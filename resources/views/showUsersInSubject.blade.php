@@ -11,23 +11,33 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h3 class="text-2xl font-semibold mb-4">Estudiantes de {{ $subject->name }}</h3>
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-indigo-500 text-white">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                                     Nombre
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                                    E-mail
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
+                            @php $even = true; @endphp
                             @foreach($users as $user)
-                                <tr>
+                                <tr class="{{ $even ? 'bg-gray-100' : 'bg-white' }}">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         {{ $user->name }}
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ $user->email }}
+                                    </td>
                                 </tr>
-                            @endforeach
+                                @php $even = !$even; @endphp
+                            @endforeach   
                         </tbody>
                     </table>
+                    
+                    <a href="{{ route('showNotesBySubject', ['subject_id' => $subject->id]) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4">Añadir nota</a>
                 </div>
             </div>
         </div>
