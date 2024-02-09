@@ -64,7 +64,8 @@ Route::get('courses/{course_id}/subjects', [CourseController::class, 'showSubjec
 
 //Alumnos de la Asignatura
 Route::get('users-in-subject/{subject_id}', [SubjectController::class, 'showUsersInSubject'])
- ->name('showUsersInSubject');
+    ->middleware('can:showUsersInSubject')
+    ->name('showUsersInSubject');
 
 //Asignaturas del Alumno
 Route::get('subjects', [SubjectController::class, 'showSubjectsByStudent']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza

@@ -9,6 +9,15 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+/*     private $user;
+
+    public function __construct(){
+
+        $this->user = Auth::user();
+
+        var_dump($this->user);
+        die();
+    } */
     public function showSubjectsByStudent()
     {
         // Obtener las asignaturas del alumno logueado
@@ -25,7 +34,7 @@ class SubjectController extends Controller
     {  
         $subject = Subject::find($subjectId);
         
-        if($subject){
+        if($subject && $this->isTeacherFromSubject($subject)){
 
             $users = $subject->users()->where('profile_id', 3)->get();
 
@@ -33,10 +42,29 @@ class SubjectController extends Controller
 
         }else{
 
-            return 'No hay estudiantes para esta asignatura';
+            return 'No tienes permisos para esta asignatura.';
         }
 
     }
+
+    private function isTeacherFromSubject($subject){
+
+        $user = Auth::user();
+        
+        $teachers = $subject->users()->where('profile_id', 2)->get();
+
+        foreach ($teachers as $teacher){
+
+            if($teacher->id == $user->id){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+        
+    
     
 }
 

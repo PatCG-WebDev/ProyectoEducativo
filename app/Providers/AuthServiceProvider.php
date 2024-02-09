@@ -26,9 +26,20 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('seeReports', fn(User $user) => 
             $user->profile_id == User::PROFILE_ADMINISTRATOR
         );
+        
         //Teacher//
 
         Gate::define('showCoursesByTeacher', fn(User $user) =>
+            $user->profile_id == User::PROFILE_TEACHER
+            
+        );
+
+/*         Gate::define('showCoursesByTeacher', fn(User $user) =>
+        $user->profile_id == User::PROFILE_ADMINISTRATOR
+        
+    ); */
+
+        Gate::define('showUsersInSubject', fn(User $user) =>
             $user->profile_id == User::PROFILE_TEACHER
         );
 
