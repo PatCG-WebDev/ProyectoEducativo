@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Subject;
+use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -36,9 +37,18 @@ class SubjectController extends Controller
         
         if($subject && $this->isTeacherFromSubject($subject)){
 
+            // Obtener los usuarios de la asignatura
             $users = $subject->users()->where('profile_id', 3)->get();
+            
+            // Obtener las notas de los usuarios en la asignatura
+            $notes = [];
+            foreach ($users as $user) {
+                $notes[$user->id] = Note::where('user_id', $user->id)
+                                        ->where('subject_id', $subject->id)
+                                        ->get();
+            }
 
-            return view('showUsersInSubject', compact('subject','users'));
+            return view('showUsersInSubject', compact('subject', 'users', 'notes'));
 
         }else{
 
@@ -46,6 +56,7 @@ class SubjectController extends Controller
         }
 
     }
+
 
     private function isTeacherFromSubject($subject){
 

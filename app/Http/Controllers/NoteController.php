@@ -34,6 +34,11 @@ class NoteController extends Controller
         return redirect()->route('home')->with('error', 'Asignatura no encontrada o no autorizada.');
     }
 
+    public function addNotes(){
+
+       
+    }
+
    /*  public function saveNote(Request $request, $userId)
     {
         $request->validate([
