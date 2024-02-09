@@ -14,9 +14,7 @@ class CourseUserSeeder extends Seeder
     public function run(): void
     {
         $courseUser = [
-            //admin
-            ['user_id' => 1, 'course_id' => 1],
-
+            /* ['user_id' => 1, 'course_id' => null], */
             //Teacher
             ['user_id' => 2, 'course_id' => 1],
             ['user_id' => 2, 'course_id' => 2],
