@@ -64,7 +64,7 @@ class User extends Authenticatable
     ];
 
 
-    //Relación uno a muchos (inversa)
+    //Relación muchos a uno
 
     public function profile(){
 
@@ -75,15 +75,9 @@ class User extends Authenticatable
 
     //Relación uno a muchos
 
-    public function note(){
+    public function notes(){
 
         return $this->hasMany(Note::class);
-    
-    }
-
-    public function exam(){
-
-        return $this->hasMany(Exam::class);
     
     }
 

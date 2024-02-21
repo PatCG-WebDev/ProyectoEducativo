@@ -9,16 +9,23 @@ class Subject extends Model
 {
     use HasFactory;
 
-    //Relación uno a muchos (inversa)
+    //Relación muchos a uno
 
     public function course(){
 
         return $this->belongsTo(Course::class);
     }
 
+
+    //Relación Muchos a Muchos
+    public function users(){
+        
+        return $this->belongsToMany(User::class);
+    }
+
     //Relación uno a muchos
 
-    public function note(){
+    public function notes(){
 
         return $this->hasMany(Note::class);
     }
@@ -29,11 +36,8 @@ class Subject extends Model
 
     }
 
-        //Relación Muchos a Muchos
-
-    public function users(){
         
-        return $this->belongsToMany(User::class);
-    }
+
+    
     
 }

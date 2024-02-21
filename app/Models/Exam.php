@@ -10,6 +10,12 @@ class Exam extends Model
     use HasFactory;
 
     //Relación uno a uno
+    public function notes(){
+
+        return $this->hasMany(Note::class);
+    }
+
+    //Relación muchos a uno
     public function course(){
 
         return $this->belongsTo(Course::class);
@@ -20,8 +26,4 @@ class Exam extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function user(){
-
-        return $this->belongsTo(User::class);
-    }
 }

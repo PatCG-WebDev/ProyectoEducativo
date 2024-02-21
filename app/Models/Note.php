@@ -9,8 +9,7 @@ class Note extends Model
 {
     use HasFactory;
 
-    //Relación uno a muchos (inversa)
-
+    //Relación muchos a uno
     public function subject(){
 
         return $this->belongsTo(Subject::class);
@@ -21,6 +20,9 @@ class Note extends Model
         return $this->belongsTo(User::class);
     }
 
-    
+    public function exam(){
+
+        return $this->belongsTo(Exam::class);
+    }
 
 }

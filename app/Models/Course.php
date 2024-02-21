@@ -10,23 +10,21 @@ class Course extends Model
     use HasFactory;
 
     // Relación uno a muchos
-    public function subject(){
+    public function subjects(){
 
-        return $this->belongsToMany(Subject::class);
+        return $this->hasMany(Subject::class);
     }
 
+    public function exams(){
 
+        return $this->hasMany(Exam::class);
+
+    }
+
+    //Relación muchos a muchos
     public function users(){
 
         return $this->belongsToMany(User::class);
 
     }
-
-    public function exams(){
-
-        return $this->belongsTo(Exam::class);
-
-    }
-
-
 }

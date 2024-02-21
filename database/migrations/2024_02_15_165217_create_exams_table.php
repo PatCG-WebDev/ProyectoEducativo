@@ -15,11 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name', 45);
             $table->unsignedBigInteger('course_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable();
 
             $table->foreign('course_id')
                     ->references('id')->on('courses')
                     ->onDelete('cascade');
 
+            $table->foreign('subject_id')
+                    ->references('id')->on('subjects')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
