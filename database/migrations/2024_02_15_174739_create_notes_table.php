@@ -13,20 +13,23 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->unsignedBigInteger('exam_id')->nullable();
+            $table->decimal('value', 4, 2);
+            $table->string('comment');
+            
+            
             $table->foreign('user_id')
                     ->references('id')->on('users')
-                    ->onDelete('set null');
-
-            $table->unsignedBigInteger('subject_id')->nullable();
+                    ->onDelete('cascade');
             $table->foreign('subject_id')
                     ->references('id')->on('subjects')
-                    ->onDelete('set null');
+                    ->onDelete('cascade');
+            $table->foreign('exam_id')
+                    ->references('id')->on('exams')
+                    ->onDelete('cascade');
 
-            $table->decimal('value', 4, 2);
-            $table->string('exam');
-            $table->string('comment');
             $table->timestamps();
         });
     }

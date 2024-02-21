@@ -81,6 +81,12 @@ class User extends Authenticatable
     
     }
 
+    public function exam(){
+
+        return $this->hasMany(Exam::class);
+    
+    }
+
     //Relación Muchos a Muchos
 
     public function subjects(){

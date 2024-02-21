@@ -9,7 +9,7 @@ class Course extends Model
 {
     use HasFactory;
 
-    // Relación muchos a muchos
+    // Relación uno a muchos
     public function subject(){
 
         return $this->belongsToMany(Subject::class);
@@ -19,6 +19,12 @@ class Course extends Model
     public function users(){
 
         return $this->belongsToMany(User::class);
+
+    }
+
+    public function exams(){
+
+        return $this->belongsTo(Exam::class);
 
     }
 

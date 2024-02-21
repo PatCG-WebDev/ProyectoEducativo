@@ -41,14 +41,14 @@ class SubjectController extends Controller
             $users = $subject->users()->where('profile_id', 3)->get();
             
             // Obtener las notas de los usuarios en la asignatura
-            $notes = [];
+            /* $notes = [];
             foreach ($users as $user) {
                 $notes[$user->id] = Note::where('user_id', $user->id)
                                         ->where('subject_id', $subject->id)
                                         ->get();
-            }
+            } */
 
-            return view('showUsersInSubject', compact('subject', 'users', 'notes'));
+            return view('showUsersInSubject', compact('subject', 'users'));
 
         }else{
 

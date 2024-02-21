@@ -16,12 +16,17 @@ class Subject extends Model
         return $this->belongsTo(Course::class);
     }
 
-
     //Relación uno a muchos
 
     public function note(){
 
         return $this->hasMany(Note::class);
+    }
+
+    public function exams(){
+
+        return $this->belongsToMany(Exam::class);
+
     }
 
         //Relación Muchos a Muchos
@@ -30,6 +35,5 @@ class Subject extends Model
         
         return $this->belongsToMany(User::class);
     }
-    
     
 }

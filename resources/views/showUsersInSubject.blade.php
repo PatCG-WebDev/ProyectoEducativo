@@ -18,34 +18,10 @@
                                     <td class="px-6 py-4">{{ $user->name }}</td>
                                     <td class="px-6 py-4">{{ $user->email }}</td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="flex justify-end">
-                                            <table class="min-w-full divide-y divide-gray-200">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="background-color: #a5b4fc;">Nota</th>
-                                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="background-color: #a5b4fc;">Comentario</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr style="background-color: #ffffff;">
-                                                        <td class="px-6 py-4">5.5</td>
-                                                        <td class="px-6 py-4">Bien hecho!</td>
-                                                    </tr>
-                                                    <tr style="background-color: #ffffff;">
-                                                        <td class="px-6 py-4">5.5</td>
-                                                        <td class="px-6 py-4">Bien hecho!</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
                             @endforeach   
                         </tbody>
                     </table>
-                    <a href="{{ route('showNotesBySubject', ['subject_id' => $subject->id]) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4">Añadir nota</a>
+                    <a href="{{ route('addNotes', ['subjectId' => $subject->id]) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4">Añadir notas</a>
                 </div>
             </div>
         </div>

@@ -68,9 +68,15 @@ Route::get('users-in-subject/{subject_id}', [SubjectController::class, 'showUser
     ->name('showUsersInSubject');
 
 //Añadir notas
-Route::get('/add-notes', [NoteController::class, 'addNotes'])
+Route::get('/add-notes/{subjectId}', [NoteController::class, 'showAddNotesForm'])
     ->middleware('can:addNotes')
     ->name('addNotes');
+
+//Guardar notas
+Route::post('/save-notes', [NoteController::class, 'saveNotes'])
+    /* ->middleware('can:saveNotes') */
+    ->middleware('can:addNotes')
+    ->name('saveNotes');
 
 //Asignaturas del Alumno
 Route::get('subjects', [SubjectController::class, 'showSubjectsByStudent']) //primer parámetro es la ruta el navegador, el segudno es el controlador y la función que se utiliza

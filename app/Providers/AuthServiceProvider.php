@@ -38,6 +38,10 @@ class AuthServiceProvider extends ServiceProvider
             $user->profile_id == User::PROFILE_TEACHER
         );
 
+        /* Gate::define('saveNotes', fn(User $user) =>
+            $user->profile_id == User::PROFILE_TEACHER
+        ); */
+
         Gate::define('showUsersInSubject', fn(User $user) =>
             $user->profile_id == User::PROFILE_TEACHER
         );
