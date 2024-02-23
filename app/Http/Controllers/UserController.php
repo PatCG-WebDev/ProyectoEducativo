@@ -23,16 +23,4 @@ class UserController extends Controller
         return view('reports', compact('users'));
     }
 
-
-    //añadir notas
-/*     public function addNotes($id) 
-    {
-        $subject = Subject::find($id);
-        $user = Subject::find($id)->user;
-        $notes = Subject::find($id)->notes;
-
-        return view('add-notes')->with('user',$user)->with('subject',$subsect)->with('notes',$notes);
-    } */
-
-
 }

@@ -9,7 +9,7 @@
                         <input type="hidden" name="subject_id" value="{{ $subject->id }}">
                         
                         <label for="exam_id" class="block text-sm font-medium text-gray-700 mb-2">Examen:</label>
-                        <select name="exam_id" id="exam_id" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mb-4">
+                        <select name="exam_id[]" id="exam_id" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mb-4">
                             @foreach($exams as $exam)
                                 <option value="{{ $exam->id }}">{{ $exam->name }}</option>
                             @endforeach
@@ -20,6 +20,7 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Nombre</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">E-mail</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Seleccionar</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Nota</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Comentario</th>
                                 </tr>
@@ -29,10 +30,14 @@
                                     <tr style="background-color: #f3f4f6">
                                         <td class="px-6 py-4">{{ $user->name }}</td>
                                         <td class="px-6 py-4">{{ $user->email }}</td>
-                                        <td class="px-6 py-4"><input type="text" name="value[{{ $user->id }}]"></td>
-                                        <td class="px-6 py-4"><input type="text" name="comment[{{ $user->id }}]"></td>
+                                        <td class="px-6 py-4 flex justify-center items-center">
+                                            <input type="checkbox" name="selected_users[]" value="{{ $user->id }}">
+                                        </td>
+                                        <td class="px-6 py-4"><input type="text" name="notes[{{ $user->id }}][value]"></td>
+                                        <td class="px-6 py-4"><input type="text" name="notes[{{ $user->id }}][comment]"></td>
                                     </tr>
-                                @endforeach   
+                                @endforeach
+  
                             </tbody>
                         </table>
                         <button type="submit" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4">Guardar</button>

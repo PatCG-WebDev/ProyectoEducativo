@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('subject_id')->nullable();
             $table->unsignedBigInteger('exam_id')->nullable();
             $table->decimal('value', 4, 2);
-            $table->string('comment');
+            $table->string('comment', 255)->nullable();
             
             
             $table->foreign('user_id')

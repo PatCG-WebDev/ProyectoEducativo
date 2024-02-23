@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
+
+    protected $fillable = ['user_id', 'subject_id', 'exam_id', 'value', 'comment'];
+
     use HasFactory;
 
     //Relación muchos a uno

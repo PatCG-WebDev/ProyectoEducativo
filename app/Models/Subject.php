@@ -34,10 +34,5 @@ class Subject extends Model
 
         return $this->belongsToMany(Exam::class);
 
-    }
-
-        
-
-    
-    
+    } 
 }
