@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return view('reports', compact('users'));
+        return view('seeReports', compact('users'));
     }
 
 }

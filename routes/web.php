@@ -40,10 +40,10 @@ Route::get('no-autorizado', function(){
 });
 
 ///////
-Route::get('reports', function () { 
-    Gate::authorize('seeReports'); 
-    return view('reports');
-})->name('reports');
+Route::get('see-reports', function () {
+    Gate::authorize('seeReports');
+    return view('seeReports');
+})->name('seeReports');
 
 /* Route::get('notes', function () {
     Gate::authorize('addNotes'); 

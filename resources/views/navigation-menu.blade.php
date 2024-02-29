@@ -49,19 +49,21 @@
 
                     @endforeach
 
-
+                    {{-- Menú Administrador --}}
                     @can('seeReports', Auth::user()) 
-                        <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
+                        <x-nav-link :href="route('seeReports')" :active="request()->routeIs('seeReports')">
                             {{ __('Reportes') }}
                         </x-nav-link>
                     @endcan
 
+                    {{-- Menú Profesor --}}
                     @can('showCoursesByTeacher', Auth::user())
                         <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
                             {{ __('Cursos') }}
                         </x-nav-link>
                     @endcan
                     
+                    {{-- Menú Alumno --}}
                     @can('showSubjectsByStudent', Auth::user())
                         <x-nav-link :href="route('showSubjectsByStudent')" :active="request()->routeIs('showSubjectsByStudent')">
                             {{ __('Mis asignaturas') }}
@@ -211,7 +213,7 @@
             @endforeach
 
             @can('seeReports', Auth::user()) 
-                <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
+                <x-nav-link :href="route('seeReports')" :active="request()->routeIs('seeReports')">
                     {{ __('Reportes') }}
                 </x-nav-link>
             @endcan
