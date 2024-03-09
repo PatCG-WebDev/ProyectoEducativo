@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('subject_id')->nullable();
-            $table->unsignedBigInteger('exam_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('exam_id');
             $table->decimal('value', 4, 2);
             $table->string('comment', 255)->nullable();
             
