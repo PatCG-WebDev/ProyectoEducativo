@@ -49,28 +49,38 @@
 
                     @endforeach
 
+                    @auth
                     {{-- Menú Administrador --}}
-                    @can('seeReports', Auth::user()) 
-                        <x-nav-link :href="route('seeReports')" :active="request()->routeIs('seeReports')">
-                            {{ __('Reportes') }}
+                    @can('adminAccess', Auth::user())
+                        <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.index')">
+                            Usuarios
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('admin.profiles.index') }}" :active="request()->routeIs('admin.profiles.index')">
+                            Perfiles
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('admin.courses.index') }}" :active="request()->routeIs('admin.courses.index')">
+                            Cursos
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('admin.subjects.index') }}" :active="request()->routeIs('admin.subjects.index')">
+                            Asignaturas
                         </x-nav-link>
                     @endcan
 
                     {{-- Menú Profesor --}}
-                    @can('showCoursesByTeacher', Auth::user())
-                        <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
-                            {{ __('Cursos') }}
-                        </x-nav-link>
-                    @endcan
+                        @can('teacherAccess', Auth::user())
+                            <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
+                                {{ __('Cursos') }}
+                            </x-nav-link>
+                        @endcan
                     
                     {{-- Menú Alumno --}}
-                    @can('showSubjectsByStudent', Auth::user())
+                    @can('studentAccess', Auth::user())
                         <x-nav-link :href="route('showSubjectsByStudent')" :active="request()->routeIs('showSubjectsByStudent')">
                             {{ __('Mis asignaturas') }}
                         </x-nav-link>
                     @endcan
-    
 
+                    @endauth
 
                 </div>
             </div>
@@ -212,18 +222,30 @@
             
             @endforeach
 
-            @can('seeReports', Auth::user()) 
-                <x-nav-link :href="route('seeReports')" :active="request()->routeIs('seeReports')">
-                    {{ __('Reportes') }}
-                </x-nav-link>
+            {{-- Menú Administrador --}}
+            @can('adminAccess', Auth::user())
+            <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.index')">
+                Usuarios
+            </x-nav-link>
+            <x-nav-link href="{{ route('admin.profiles.index') }}" :active="request()->routeIs('admin.profiles.index')">
+                Perfiles
+            </x-nav-link>
+            <x-nav-link href="{{ route('admin.courses.index') }}" :active="request()->routeIs('admin.courses.index')">
+                Cursos
+            </x-nav-link>
+            <x-nav-link href="{{ route('admin.subjects.index') }}" :active="request()->routeIs('admin.subjects.index')">
+                Asignaturas
+            </x-nav-link>
             @endcan
 
+             {{-- Menú Profesor --}}
             @can('showCoursesByTeacher', Auth::user())
                 <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
                     {{ __('Cursos') }}
                 </x-nav-link>
             @endcan
-            
+        
+            {{-- Menú Alumno --}}
             @can('showSubjectsByStudent', Auth::user())
                 <x-nav-link :href="route('showSubjectsByStudent')" :active="request()->routeIs('showSubjectsByStudent')">
                     {{ __('Mis asignaturas') }}

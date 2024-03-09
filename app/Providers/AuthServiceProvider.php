@@ -1,5 +1,33 @@
 <?php
 
+/* namespace App\Providers;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+
+class AuthServiceProvider extends ServiceProvider
+{
+  
+    public function boot()
+    {
+        $this->registerPolicies();
+
+    Gate::define('adminAccess', function (User $user) {
+        return $user->profile ===  User::PROFILE_ADMINISTRATOR;
+    });
+
+    Gate::define('teacherAccess', function (User $user) {
+        return $user->profile ===  User::PROFILE_TEACHER;
+    });
+
+    Gate::define('studentAccess', function (User $user) {
+        return $user->profile ===  User::PROFILE_STUDENT;
+    });
+
+    }
+} */
+
 namespace App\Providers;
 
 use App\Models\User; 
@@ -21,39 +49,20 @@ class AuthServiceProvider extends ServiceProvider
      * Register any authentication / authorization services.
      */
     public function boot(): void
-    {
-        //Admin//
-        Gate::define('seeReports', fn(User $user) => 
-            $user->profile_id == User::PROFILE_ADMINISTRATOR
-        );
-        
-        //Teacher//
+{
+    // Definiciones de Gates para el perfil de Administrador
+    Gate::define('seeReports', fn(User $user) => 
+        $user->profile_id == User::PROFILE_ADMINISTRATOR
+    );
 
-        Gate::define('showCoursesByTeacher', fn(User $user) =>
-            $user->profile_id == User::PROFILE_TEACHER
-            
-        );
+    // Definiciones de Gates para el perfil de Profesor
+    Gate::define('teacherAccess', function (User $user) {
+        return $user->profile_id == User::PROFILE_TEACHER;
+    });
 
-        Gate::define('addNotes', fn(User $user) =>
-            $user->profile_id == User::PROFILE_TEACHER
-        );
-
-        /* Gate::define('saveNotes', fn(User $user) =>
-            $user->profile_id == User::PROFILE_TEACHER
-        ); */
-
-        Gate::define('showUsersInSubject', fn(User $user) =>
-            $user->profile_id == User::PROFILE_TEACHER
-        );
-
-        Gate::define('showSubjectsInCourse', fn(User $user) =>
-            $user->profile_id == User::PROFILE_TEACHER
-        );
-
-        //Student//
-        Gate::define('showSubjectsByStudent', fn(User $user) =>
-            $user->profile_id == User::PROFILE_STUDENT
-        );
-
-    }
+    // Definiciones de Gates para el perfil de Estudiante
+    Gate::define('studentAccess', function (User $user) {
+        return $user->profile_id == User::PROFILE_STUDENT;
+    });
+}
 }
