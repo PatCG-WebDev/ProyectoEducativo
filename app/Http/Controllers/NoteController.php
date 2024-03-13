@@ -26,13 +26,13 @@ class NoteController extends Controller
             $notes = Note::where('user_id', $user->id)
                 ->where('subject_id', $subject->id)
                 ->get();
-
+                
             // Retornar la vista con las notas
             return view('showNotesBySubject', compact('subject','notes'));
         }
 
         // Si la asignatura no existe o no pertenece al usuario, puedes redirigir o manejar el error de alguna otra manera.
-        return redirect()->route('home')->with('error', 'Asignatura no encontrada o no autorizada.');
+        return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
     }
 
     public function showAddNotesForm($subjectId)
@@ -56,38 +56,36 @@ class NoteController extends Controller
         return view('addNotes', compact('subject', 'users', 'exams'));
     }
     
-    public function saveNotes(Request $request)
-{
-    // Validar los datos enviados
+
+     public function saveNotes(Request $request)
+    {
+        // Validar los datos enviados
         $request->validate([
-            'exam_id' => 'required|string|max:255',
-            'selected_users' => 'required|array', // Asegúrate de que al menos un usuario esté seleccionado
-            'selected_users.*' => 'exists:users,id', // Validar que cada usuario seleccionado exista en la base de datos
-            'notes.*.value' => '', //required|numeric|min:0|max:10
-            'notes.*.comment' => 'nullable|string|max:255',
+            'exam.*' => 'required|string|max:255',
+            'selected_users' => 'required|array',
+            'selected_users.*' => 'exists:users,id',
+            'value.*' => 'required|numeric|min:0|max:10', 
+            'comment.*' => 'nullable|string|max:255',
         ]);
 
-        // Obtener el examen seleccionado
-        $examId = $request->exam_id;
+        // Utilizamos sólo los 
+       $selectedUsers = $request->selected_users;
 
-        // Obtener los IDs de los alumnos seleccionados para agregar notas
-        $selectedUsers = $request->selected_users;
-
-        // Procesar solo los alumnos seleccionados
+       //Iterar por los campos para guardarlos en la DDBB
         foreach ($selectedUsers as $userId) {
-            if (isset($request->notes[$userId])) {
-                Note::create([
-                    'user_id' => $userId,
-                    'subject_id' => $request->subject_id,
-                    'exam_id' => $examId,
-                    'value' => $request->notes[$userId]['value'],
-                    'comment' => $request->notes[$userId]['comment'] ?? null,
-                ]);
-            }
+
+            Note::create([
+                'user_id' => $userId,
+                'subject_id' => $request->subject_id,
+                'exam_id' => $request->exam,
+                'value' => $request->notes[$userId]['value'],
+                'comment' => $request->notes[$userId]['comment'],
+            ]);
+            
         }
 
-        return redirect()->route('addNotes')->whith('message', 'Notas añadidas correctamente');
-}
+        return redirect()->route('showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
+    }
 
 }
 
