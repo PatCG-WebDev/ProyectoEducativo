@@ -24,7 +24,7 @@
                             <tbody>
                                 @foreach ($notes as $index => $note)
                                     <tr class="{{ $index % 2 === 0 ? 'bg-gray-100' : 'bg-white' }}">
-                                        <td class="py-2 px-4 border">{{ $note->exam }}</td>
+                                        <td class="py-2 px-4 border">{{ $note->exam->name }}</td>
                                         <td class="py-2 px-4 border">{{ $note->value }}</td>
                                         <td class="py-2 px-4 border">{{ $note->comment }}</td>
                                     </tr>
