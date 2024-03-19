@@ -74,6 +74,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Guardar notas
         Route::post('/save-notes', [NoteController::class, 'saveNotes'])
             ->name('saveNotes');
+        
+        //Ver exámenes
+        Route::get('exams', [ExamController::class, 'showExams'])
+            ->name('showExams');
+
+        //Crear-Editar examen
+        Route::match(['get', 'put'], 'exams/{id?}/edit', [ExamController::class, 'createOrEditExam'])
+            ->name('createOrEditExam'); //con esto la ruta acepta el método get y el put
+
+        //Eliminar examen
+        Route::post('exams/delete', [ExamController::class, 'deleteExam'])
+            ->name('deleteExam');
     });
 
     // STUDENT
