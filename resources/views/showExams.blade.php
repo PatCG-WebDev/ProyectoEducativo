@@ -15,7 +15,7 @@
                                     <tr class="bg-gray-50">
                                         <td class="px-6 py-4">{{ $exam->name }}</td>
                                         <td class="px-6 py-4">
-                                            <a href="{{ route('createOrEditExam', ['id' => $exam->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">Editar</a>
+                                            <a href="{{ route('editExam', ['idExam' => $exam->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">Editar</a>
                                         </td>
                                         <td class="px-6 py-4">
                                             <form action="{{ route('deleteExam') }}" method="POST" class="inline">
@@ -30,7 +30,7 @@
                             </tbody>
                         </table>
                         <div class="text-center">
-                            <form action="{{ route('createOrEditExam') }}" method="POST">
+                            <form action="{{ route('createExam') }}" method="GET">
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
                                 <button type="submit" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Crear Examen</button>

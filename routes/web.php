@@ -79,13 +79,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('exams', [ExamController::class, 'showExams'])
             ->name('showExams');
 
-        //Crear-Editar examen
-        Route::match(['get', 'put'], 'exams/{id?}/edit', [ExamController::class, 'createOrEditExam'])
-            ->name('createOrEditExam'); //con esto la ruta acepta el método get y el put
+        //Editar examen
+        Route::get('exams/{idExam}/edit', [ExamController::class, 'createOrEditExam'])
+            ->name('editExam'); //con esto la ruta acepta el método get y el put
+        
+        //Crear examen
+        Route::get('exams/edit', [ExamController::class, 'createOrEditExam'])
+            ->name('createExam');
+
+        //Guardar examen
+        Route::post('/save-exam', [ExamController::class, 'saveExam'])
+            ->name('saveExam');
 
         //Eliminar examen
         Route::post('exams/delete', [ExamController::class, 'deleteExam'])
             ->name('deleteExam');
+
+        //Recuperar asignaturas por curso
+        Route::get('courses/{course_id}/get-subjects-json', [CourseController::class, 'getSubjectJson']);
+
     });
 
     // STUDENT

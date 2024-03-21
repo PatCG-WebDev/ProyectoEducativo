@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Course;
+use App\Models\Subject;
 
 
 class CourseController extends Controller
@@ -40,6 +41,20 @@ class CourseController extends Controller
                 return redirect()->route('showCoursesByTeacher')->with('error', 'No tiene permisos para ver las asignaturas de este curso.');
         }
       
+    }
+
+
+    public function getSubjectJson($course_id){
+
+        $user = Auth::user();
+
+
+        $subjects = $user->subjects()
+                    ->where('course_id', $course_id)
+                    ->select('subjects.id', 'subjects.name') // Especificamos la tabla de la columna ID
+                    ->get();
+                        
+        return response()->json(['subjects' => $subjects]);
     }
 
     
