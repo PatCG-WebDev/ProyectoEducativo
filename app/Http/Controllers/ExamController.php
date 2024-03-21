@@ -62,8 +62,20 @@ class ExamController extends Controller
     }
 
 
-   public function deleteExam(){
+    public function deleteExam(Request $request){
 
-        
-   }
+        $request->validate([
+            'exam_id' => 'required|exists:exams,id',
+        ]);
+
+        $exam = Exam::find($request->exam_id);
+
+        if($exam){
+            $exam->delete();
+            return redirect()->back()->with('success', 'Examen eliminado exitosamente.');
+        }else{
+            return redirect()->back()->with('error', 'No se pudo encontrar el examen para eliminar.');
+        }
+    }
+
 }

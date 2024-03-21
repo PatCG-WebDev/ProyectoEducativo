@@ -92,7 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('saveExam');
 
         //Eliminar examen
-        Route::post('exams/delete', [ExamController::class, 'deleteExam'])
+        Route::delete('exams/delete', [ExamController::class, 'deleteExam'])
             ->name('deleteExam');
 
         //Recuperar asignaturas por curso
