@@ -9,6 +9,12 @@ class Exam extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'course_id',
+        'subject_id',
+    ];
+
     //Relación uno a uno
     public function notes(){
 

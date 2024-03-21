@@ -47,12 +47,23 @@ class ExamController extends Controller
     public function saveExam(Request $request){
         
         $request->validate([
-                'name' 
+                'name' => 'required|string|max:255',
+                'course_id' => 'required',
+                'subject_id' => 'required',
         ]);
+
+        Exam::create([
+            'name' => $request->name ,
+            'course_id' => $request->course_id,
+            'subject_id' => $request->subject_id,
+        ]);
+
+        return redirect()->route('showExams');
     }
 
 
    public function deleteExam(){
-    
+
+        
    }
 }
