@@ -3,18 +3,24 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    {{-- <form action="{{ isset($exam) ? route('editExam', $exam->id) : route('createExam') }}" method="POST"> --}}
-                        <form action="{{ route('saveExam') }}" method="POST">
-
+                        <form
+                            @if(isset($exam)) 
+                                action="{{ route('updateExam', ['exam' => $exam->id]) }}" 
+                            @else 
+                                action="{{ route('saveNewExam') }}" 
+                            @endif
+                            method="POST">
+                            
                         @csrf
-                        {{-- verificación de si existe examen o no para mostrar edit o create --}}
+                        {{-- verificación de si existe examen o no para mostrar edit o create. Editar examen->PUT / Crear examen->POST --}}
                         @if(isset($exam))
                             @method('PUT')
+                            <input type="hidden" name="exam_id" value="{{ $exam->id }}"> {{-- campo oculto para poder determinar si existe o no el id del examen --}}
                         @endif
                         
                         <div class="mb-4">
-                            <label for="name" :value="__('Nombre del Examen')" class="block text-indigo-600 font-bold" />
-                            <input id="name" class="block mt-1 w-full" type="text" name="name" :value="isset($exam) ? $exam->name : ''" required autofocus />
+                            <label for="name" class="block text-indigo-600 font-bold">{{ __('Nombre del Examen') }}</label>
+                            <input id="name" class="block mt-1 w-full" type="text" name="name" value="{{isset($exam) ? $exam->name : ''}}" required autofocus />
                         </div>
                         
                         <div class="mb-4">

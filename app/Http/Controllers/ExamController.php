@@ -35,8 +35,8 @@ class ExamController extends Controller
             return view('createOrEditExam', compact('courses', 'subjects'));     
                    
         } else {
-            $exam = Exam::findOrFail($idExam);
-            $course = Course::findOrFail($exam->course_id);
+            $exam = Exam::findOrFail($idExam); //examen
+            $course = Course::findOrFail($exam->course_id); //curso del examen
             $subjects = $user->subjects()->where('course_id', $course->id)->get(); //asignaturas del curso y profesor
 
             return view('createOrEditExam', compact('exam', 'course', 'subjects', 'courses'));
@@ -52,13 +52,28 @@ class ExamController extends Controller
                 'subject_id' => 'required',
         ]);
 
-        Exam::create([
-            'name' => $request->name ,
-            'course_id' => $request->course_id,
-            'subject_id' => $request->subject_id,
+        if ($request->has('exam_id')) {
+            $exam = Exam::findOrFail($request->exam_id);
+            $exam->fill([
+                'name' => $request->name,
+                'course_id' => $request->course_id,
+                'subject_id' => $request->subject_id,
+            ]);
+            $exam->save();
+
+            return redirect()->route('showExams')->with('success', 'Examen actualizado correctamente.');
+
+        }else{
+
+            Exam::create([
+                'name' => $request->name ,
+                'course_id' => $request->course_id,
+                'subject_id' => $request->subject_id,
         ]);
 
-        return redirect()->route('showExams');
+            return redirect()->route('showExams')->with('success', 'Examen creado correctamente.');
+
+        }
     }
 
 
@@ -71,8 +86,10 @@ class ExamController extends Controller
         $exam = Exam::find($request->exam_id);
 
         if($exam){
+
             $exam->delete();
             return redirect()->back()->with('success', 'Examen eliminado exitosamente.');
+
         }else{
             return redirect()->back()->with('error', 'No se pudo encontrar el examen para eliminar.');
         }

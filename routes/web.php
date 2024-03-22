@@ -87,9 +87,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('exams/edit', [ExamController::class, 'createOrEditExam'])
             ->name('createExam');
 
-        //Guardar examen
-        Route::post('/save-exam', [ExamController::class, 'saveExam'])
-            ->name('saveExam');
+        //Guardar examen nuevo
+        Route::post('/exams', [ExamController::class, 'saveExam'])
+            ->name('saveNewExam');
+        
+        // Actualizar examen
+        Route::put('/exams/{exam}', [ExamController::class, 'saveExam'])
+            ->name('updateExam');
 
         //Eliminar examen
         Route::delete('exams/delete', [ExamController::class, 'deleteExam'])
