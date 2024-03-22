@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Subject;
 use App\Models\Note;
+use App\Models\Exam;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,7 @@ class SubjectController extends Controller
     }
 
 
-    public function showUsersInSubject($subjectId)
+   /*  public function showUsersInSubject($subjectId)
     {  
         $subject = Subject::find($subjectId);
         
@@ -48,14 +49,47 @@ class SubjectController extends Controller
                                         ->get();
             } */
 
-            return view('showUsersInSubject', compact('subject', 'users'));
+            /* eturn view('showUsersInSubject', compact('subject', 'users'));
 
         }else{
 
             return 'No tienes permisos para esta asignatura.';
         }
 
+    } */
+
+
+    public function showUsersInSubject($subjectId)
+{  
+    $subject = Subject::find($subjectId);
+    
+    if($subject && $this->isTeacherFromSubject($subject)){
+
+        // Obtener los usuarios de la asignatura
+        $users = $subject->users()->where('profile_id', 3)->get();
+        
+        // Obtener los exámenes de la asignatura
+        $exams = Exam::where('subject_id', $subjectId)->get();
+
+        // Obtener las notas de los usuarios en la asignatura
+        foreach ($users as $user) {
+            foreach ($exams as $exam) {
+                $note = Note::where('user_id', $user->id)
+                            ->where('exam_id', $exam->id)
+                            ->first();
+                $user->notes[$exam->id] = $note;
+            }
+        }
+
+        return view('showUsersInSubject', compact('subject', 'users', 'exams'));
+
+    } else {
+
+        return 'No tienes permisos para esta asignatura.';
     }
+}
+
+
 
 
     private function isTeacherFromSubject($subject){
