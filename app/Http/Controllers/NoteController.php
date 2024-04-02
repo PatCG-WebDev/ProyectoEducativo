@@ -35,6 +35,8 @@ class NoteController extends Controller
         return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
     }
 
+
+//////////////////////////////////////////////////////
     public function showAddNotesForm($subjectId)
     {
         // Obtener la asignatura específica
@@ -85,6 +87,65 @@ class NoteController extends Controller
         }
 
         return redirect()->route('showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
+    }
+
+    
+ //////////////////////////////////////////////
+    public function showEditNotesForm($userId, $subjectId)
+    {
+        // Obtener el usuario y la asignatura específicos
+        $user = User::find($userId);
+        $subject = Subject::find($subjectId);
+
+        // Verificar si el usuario y la asignatura existen
+        if (!$user || !$subject) {
+            // Si no existen, puedes redirigir o manejar el error de alguna otra manera.
+            return redirect()->route('home')->with('error', 'Usuario o asignatura no encontrados.');
+        }
+
+        // Obtener las notas del usuario para la asignatura
+        $notes = Note::where('user_id', $user->id)
+                    ->where('subject_id', $subject->id)
+                    ->get();
+
+        // Retornar la vista para editar las notas
+        return view('editNotes', compact('user', 'subject', 'notes'));
+    }
+
+    public function updateNotes(Request $request)
+    {
+        // Validar los datos enviados
+        $request->validate([
+            'note_id' => 'required|exists:notes,id',
+            'value' => 'required|numeric|min:0|max:10',
+            'comment' => 'nullable|string|max:255',
+        ]);
+
+        // Obtener la nota a actualizar
+        $note = Note::findOrFail($request->note_id);
+
+        // Actualizar los valores de la nota
+        $note->value = $request->value;
+        $note->comment = $request->comment;
+        $note->save();
+
+        return redirect()->back()->with('message', 'Nota actualizada correctamente');
+    }
+
+    public function deleteNote(Request $request)
+    {
+        // Validar los datos enviados
+        $request->validate([
+            'note_id' => 'required|exists:notes,id',
+        ]);
+
+        // Obtener la nota a eliminar
+        $note = Note::findOrFail($request->note_id);
+
+        // Eliminar la nota
+        $note->delete();
+
+        return redirect()->back()->with('message', 'Nota eliminada correctamente');
     }
 
 }

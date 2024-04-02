@@ -74,6 +74,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Guardar notas
         Route::post('/save-notes', [NoteController::class, 'saveNotes'])
             ->name('saveNotes');
+
+        // Editar notas
+        Route::get('/edit-notes/{userId}/{subjectId}', [NoteController::class, 'showEditNotesForm'])
+            ->name('editNotes');
+
+        // Actualizar notas
+        Route::post('/update-notes', [NoteController::class, 'updateNotes'])
+            ->name('updateNotes');
+
+        // Eliminar notas
+        Route::post('/delete-note', [NoteController::class, 'deleteNote'])
+            ->name('deleteNote');
+
         
         //Ver exámenes
         Route::get('exams', [ExamController::class, 'showExams'])

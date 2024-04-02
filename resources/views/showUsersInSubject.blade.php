@@ -1,4 +1,4 @@
- <x-app-layout>
+<x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -11,6 +11,7 @@
                                 @foreach($exams as $exam)
                                     <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">{{ $exam->name }}</th>
                                 @endforeach
+                                <th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,6 +28,9 @@
                                             @endif
                                         </td>
                                     @endforeach
+                                    <td class="px-6 py-4 text-center">
+                                        <a href="{{ route('editNotes', ['userId' => $user->id, 'subjectId' => $subject->id]) }}" class="text-indigo-600 hover:text-indigo-900">Modificar</a>
+                                    </td>
                                 </tr>
                             @endforeach   
                         </tbody>
