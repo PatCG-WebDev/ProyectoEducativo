@@ -21,7 +21,7 @@
                                     <td class="px-6 py-4 text-center">{{ $note->comment ?: 'N/A' }}</td>
                                     <td class="px-6 py-4 text-center">
                                         <button class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4" onclick="editNote({{ $note->id }})">Editar</button>
-                                        <form action="{{ route('teacher.deleteNote') }}" method="post" class="inline">
+                                        <form action="{{ route('deleteNote') }}" method="post" class="inline">
                                             @csrf
                                             <input type="hidden" name="note_id" value="{{ $note->id }}">
                                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('¿Estás seguro de que deseas eliminar esta nota?')">Eliminar</button>
@@ -30,7 +30,7 @@
                                 </tr>
                                 <tr id="editNote{{ $note->id }}" style="display:none;">
                                     <td class="px-6 py-4" colspan="4">
-                                        <form action="{{ route('teacher.updateNotes') }}" method="post">
+                                        <form action="{{ route('updateNotes') }}" method="post">
                                             @csrf
                                             <input type="hidden" name="note_id" value="{{ $note->id }}">
                                             <div class="flex flex-col">
