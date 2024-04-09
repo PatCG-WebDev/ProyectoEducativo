@@ -1,33 +1,5 @@
 <?php
 
-/* namespace App\Providers;
-
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-class AuthServiceProvider extends ServiceProvider
-{
-  
-    public function boot()
-    {
-        $this->registerPolicies();
-
-    Gate::define('adminAccess', function (User $user) {
-        return $user->profile ===  User::PROFILE_ADMINISTRATOR;
-    });
-
-    Gate::define('teacherAccess', function (User $user) {
-        return $user->profile ===  User::PROFILE_TEACHER;
-    });
-
-    Gate::define('studentAccess', function (User $user) {
-        return $user->profile ===  User::PROFILE_STUDENT;
-    });
-
-    }
-} */
-
 namespace App\Providers;
 
 use App\Models\User; 
