@@ -11,15 +11,7 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-/*     private $user;
 
-    public function __construct(){
-
-        $this->user = Auth::user();
-
-        var_dump($this->user);
-        die();
-    } */
     public function showSubjectsByStudent()
     {
         // Obtener las asignaturas del alumno logueado
@@ -28,35 +20,8 @@ class SubjectController extends Controller
 
 
         // Retornar la vista con las asignaturas
-        return view('showSubjectsByStudent', compact('subjects'));
+        return view('student.showSubjectsByStudent', compact('subjects'));
     }
-
-
-   /*  public function showUsersInSubject($subjectId)
-    {  
-        $subject = Subject::find($subjectId);
-        
-        if($subject && $this->isTeacherFromSubject($subject)){
-
-            // Obtener los usuarios de la asignatura
-            $users = $subject->users()->where('profile_id', 3)->get();
-            
-            // Obtener las notas de los usuarios en la asignatura
-            /* $notes = [];
-            foreach ($users as $user) {
-                $notes[$user->id] = Note::where('user_id', $user->id)
-                                        ->where('subject_id', $subject->id)
-                                        ->get();
-            } */
-
-            /* eturn view('showUsersInSubject', compact('subject', 'users'));
-
-        }else{
-
-            return 'No tienes permisos para esta asignatura.';
-        }
-
-    } */
 
 
     public function showUsersInSubject($subjectId)
@@ -81,15 +46,13 @@ class SubjectController extends Controller
             }
         }
 
-        return view('showUsersInSubject', compact('subject', 'users', 'exams'));
+        return view('teacher.showUsersInSubject', compact('subject', 'users', 'exams'));
 
     } else {
 
         return 'No tienes permisos para esta asignatura.';
     }
 }
-
-
 
 
     private function isTeacherFromSubject($subject){
@@ -108,8 +71,6 @@ class SubjectController extends Controller
         return false;
     }
 
-        
-    
     
 }
 

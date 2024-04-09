@@ -5,9 +5,9 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                         <form
                             @if(isset($exam)) 
-                                action="{{ route('updateExam', ['exam' => $exam->id]) }}" 
+                                action="{{ route('teacher.updateExam', ['exam' => $exam->id]) }}" 
                             @else 
-                                action="{{ route('saveNewExam') }}" 
+                                action="{{ route('teacher.saveNewExam') }}" 
                             @endif
                             method="POST">
                             
@@ -86,23 +86,5 @@
             });
         });
 
-
-
-
-        /* $(document).ready(function() {
-            $('#course').on('change', function() {
-                var courseId = $(this).val();
-                $.ajax({
-                    url : "{{ url('courses') }}" + "/" + courseId + "/get-subjects-json",
-                    method: 'GET',
-                    success: function(response) {
-                        $('#subject').empty();
-                        $.each(response.subjects, function(key, value) {
-                            $('#subject').append('<option value="' + value.id + '">' + value.name + '</option>');
-                        });
-                    }
-                });
-            });
-        }); */
     </script>
 </x-app-layout>

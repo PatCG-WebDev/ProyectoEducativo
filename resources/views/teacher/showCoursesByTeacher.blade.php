@@ -1,10 +1,4 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Mis Cursos') }}
-        </h2>
-    </x-slot> --}}
-
     <div class="py-12 flex items-center justify-center">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" > <!-- Aumentado el ancho máximo del contenedor -->
             <div class=" bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -14,7 +8,7 @@
                     @if ($courses->count() > 0)
                         <div class="grid grid-cols-1 gap-4">
                             @foreach ($courses as $course)
-                                <a href="{{ route('showSubjectsInCourse', ['course_id' => $course->id]) }}" class="bg-white p-4 rounded-md hover:bg-gray-100 transition duration-300">
+                                <a href="{{ route('teacher.showSubjectsInCourse', ['course_id' => $course->id]) }}" class="bg-white p-4 rounded-md hover:bg-gray-100 transition duration-300">
                                     <p class="text-indigo-600 hover:text-indigo-900 font-semibold">
                                         {{ $course->name }}
                                     </p>
