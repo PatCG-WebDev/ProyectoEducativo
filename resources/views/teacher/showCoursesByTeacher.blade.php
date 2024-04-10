@@ -14,7 +14,7 @@
                     @if ($courses->count() > 0)
                         <div class="grid grid-cols-1 gap-4">
                             @foreach ($courses as $course)
-                                <a href="{{ route('showSubjectsInCourse', ['course_id' => $course->id]) }}" class="bg-white p-4 rounded-md hover:bg-gray-100 transition duration-300">
+                                <a href="{{ route('teacher.showSubjectsInCourse', ['course_id' => $course->id]) }}" class="bg-white p-4 rounded-md hover:bg-gray-100 transition duration-300">
                                     <p class="text-indigo-600 hover:text-indigo-900 font-semibold">
                                         {{ $course->name }}
                                     </p>

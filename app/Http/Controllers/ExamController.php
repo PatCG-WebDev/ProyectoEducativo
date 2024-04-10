@@ -19,7 +19,7 @@ class ExamController extends Controller
        
        $courses = $user->courses()->with('exams')->get();
 
-       return view('showExams', compact('courses'));
+       return view('teacher.showExams', compact('courses'));
    }
 
 
@@ -32,14 +32,14 @@ class ExamController extends Controller
 
             $subjects = $courses->isNotEmpty() ? $user->subjects()->where('course_id', $courses[0]->id)->get() : collect();
 
-            return view('createOrEditExam', compact('courses', 'subjects'));     
+            return view('teacher.createOrEditExam', compact('courses', 'subjects'));     
                    
         } else {
             $exam = Exam::findOrFail($idExam); //examen
             $course = Course::findOrFail($exam->course_id); //curso del examen
             $subjects = $user->subjects()->where('course_id', $course->id)->get(); //asignaturas del curso y profesor
 
-            return view('createOrEditExam', compact('exam', 'course', 'subjects', 'courses'));
+            return view('teacher.createOrEditExam', compact('exam', 'course', 'subjects', 'courses'));
             
         }
     }
@@ -61,7 +61,7 @@ class ExamController extends Controller
             ]);
             $exam->save();
 
-            return redirect()->route('showExams')->with('success', 'Examen actualizado correctamente.');
+            return redirect()->route('teacher.showExams')->with('success', 'Examen actualizado correctamente.');
 
         }else{
 
@@ -71,7 +71,7 @@ class ExamController extends Controller
                 'subject_id' => $request->subject_id,
         ]);
 
-            return redirect()->route('showExams')->with('success', 'Examen creado correctamente.');
+            return redirect()->route('teacher.showExams')->with('success', 'Examen creado correctamente.');
 
         }
     }

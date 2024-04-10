@@ -28,7 +28,7 @@ class NoteController extends Controller
                 ->get();
                 
             // Retornar la vista con las notas
-            return view('showNotesBySubject', compact('subject','notes'));
+            return view('student.showNotesBySubject', compact('subject','notes'));
         }
 
         // Si la asignatura no existe o no pertenece al usuario, puedes redirigir o manejar el error de alguna otra manera.
@@ -55,7 +55,7 @@ class NoteController extends Controller
         $exams = Exam::where('subject_id', $subjectId)->get();
 
         // Retornar la vista para añadir notas
-        return view('addNotes', compact('subject', 'users', 'exams'));
+        return view('teacher.addNotes', compact('subject', 'users', 'exams'));
     }
     
 
@@ -86,7 +86,7 @@ class NoteController extends Controller
             
         }
 
-        return redirect()->route('showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
+        return redirect()->route('teacher.showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
     }
 
     
@@ -109,7 +109,7 @@ class NoteController extends Controller
                     ->get();
 
         // Retornar la vista para editar las notas
-        return view('editNotes', compact('user', 'subject', 'notes'));
+        return view('teacher.editNotes', compact('user', 'subject', 'notes'));
     }
 
     public function updateNotes(Request $request)

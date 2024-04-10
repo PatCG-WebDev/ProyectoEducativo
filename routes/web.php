@@ -54,68 +54,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // TEACHER
-    Route::middleware('can:teacherAccess')->group(function () {
-        // Cursos del Profesor
-        Route::get('courses', [CourseController::class, 'showCoursesByTeacher'])
-            ->name('showCoursesByTeacher');
-
-        // Asignaturas del Profesor y del Curso
-        Route::get('courses/{course_id}/subjects', [CourseController::class, 'showSubjectsInCourse'])
-            ->name('showSubjectsInCourse');
-
-        // Alumnos de la Asignatura
-        Route::get('users-in-subject/{subject_id}', [SubjectController::class, 'showUsersInSubject'])
-            ->name('showUsersInSubject');
-
-        // Añadir notas
-        Route::get('/add-notes/{subjectId}', [NoteController::class, 'showAddNotesForm'])
-            ->name('addNotes');
-
-        // Guardar notas
-        Route::post('/save-notes', [NoteController::class, 'saveNotes'])
-            ->name('saveNotes');
-
-        // Editar notas
-        Route::get('/edit-notes/{userId}/{subjectId}', [NoteController::class, 'showEditNotesForm'])
-            ->name('editNotes');
-
-        // Actualizar notas
-        Route::post('/update-notes', [NoteController::class, 'updateNotes'])
-            ->name('updateNotes');
-
-        // Eliminar notas
-        Route::post('/delete-note', [NoteController::class, 'deleteNote'])
-            ->name('deleteNote');
-
+    
+        Route::middleware('can:teacherAccess')->group(function () {
+        // Rutas para la gestión de cursos y asignaturas del profesor
+            Route::get('courses', [CourseController::class, 'showCoursesByTeacher'])->name('teacher.showCoursesByTeacher');
+            Route::get('courses/{course_id}/subjects', [CourseController::class, 'showSubjectsInCourse'])->name('teacher.showSubjectsInCourse');
+            Route::get('users-in-subject/{subject_id}', [SubjectController::class, 'showUsersInSubject'])->name('teacher.showUsersInSubject');
+    
+        // Rutas para la gestión de notas
+            Route::get('/add-notes/{subjectId}', [NoteController::class, 'showAddNotesForm'])->name('teacher.addNotes');
+            Route::post('/save-notes', [NoteController::class, 'saveNotes'])->name('teacher.saveNotes');
+            Route::get('/edit-notes/{userId}/{subjectId}', [NoteController::class, 'showEditNotesForm'])->name('teacher.editNotes');
+            Route::post('/update-notes', [NoteController::class, 'updateNotes'])->name('teacher.updateNotes');
+            Route::post('/delete-note', [NoteController::class, 'deleteNote'])->name('teacher.deleteNote');
         
-        //Ver exámenes
-        Route::get('exams', [ExamController::class, 'showExams'])
-            ->name('showExams');
-
-        //Editar examen
-        Route::get('exams/{idExam}/edit', [ExamController::class, 'createOrEditExam'])
-            ->name('editExam'); //con esto la ruta acepta el método get y el put
-        
-        //Crear examen
-        Route::get('exams/edit', [ExamController::class, 'createOrEditExam'])
-            ->name('createExam');
-
-        //Guardar examen nuevo
-        Route::post('/exams', [ExamController::class, 'saveExam'])
-            ->name('saveNewExam');
-        
-        // Actualizar examen
-        Route::put('/exams/{exam}', [ExamController::class, 'saveExam'])
-            ->name('updateExam');
-
-        //Eliminar examen
-        Route::delete('exams/delete', [ExamController::class, 'deleteExam'])
-            ->name('deleteExam');
-
-        //Recuperar asignaturas por curso
-        Route::get('courses/{course_id}/get-subjects-json', [CourseController::class, 'getSubjectJson']);
-
+        // Rutas para la gestión de exámenes
+            Route::get('exams', [ExamController::class, 'showExams'])->name('teacher.showExams');
+            Route::get('exams/{idExam}/edit', [ExamController::class, 'createOrEditExam'])->name('teacher.editExam');
+            Route::get('exams/edit', [ExamController::class, 'createOrEditExam'])->name('teacher.createExam');
+            Route::post('/exams', [ExamController::class, 'saveExam'])->name('teacher.saveNewExam');
+            Route::put('/exams/{exam}', [ExamController::class, 'saveExam'])->name('teacher.updateExam');
+            Route::delete('exams/delete', [ExamController::class, 'deleteExam'])->name('teacher.deleteExam');
+    
+        // Recuperar asignaturas por curso
+            Route::get('courses/{course_id}/get-subjects-json', [CourseController::class, 'getSubjectJson']);
     });
+    
 
     // STUDENT
     Route::middleware('can:studentAccess')->group(function () {

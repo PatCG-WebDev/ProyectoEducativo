@@ -17,7 +17,7 @@ class CourseController extends Controller
         $courses = $user->courses;
  
         // Retornar la vista con los cursos
-        return view('showCoursesByTeacher', compact('courses'));
+        return view('teacher.showCoursesByTeacher', compact('courses'));
     }
 
 
@@ -34,11 +34,11 @@ class CourseController extends Controller
            
             $subjects = $user->subjects->where('course_id', $courseId);
                    
-            return view('showSubjectsInCourse', compact('course', 'subjects'));
+            return view('teacher.showSubjectsInCourse', compact('course', 'subjects'));
 
         } else {
                 // Si el usuario no está asociado con el curso, redirigir o mostrar un mensaje de error
-                return redirect()->route('showCoursesByTeacher')->with('error', 'No tiene permisos para ver las asignaturas de este curso.');
+                return redirect()->route('teacher.showCoursesByTeacher')->with('error', 'No tiene permisos para ver las asignaturas de este curso.');
         }
       
     }

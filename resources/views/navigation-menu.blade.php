@@ -53,38 +53,38 @@
                     {{-- Menú Administrador --}}
                     @can('adminAccess', Auth::user())
                         <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.index')">
-                            Usuarios
+                            {{ __('Usuarios') }}
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin.profiles.index') }}" :active="request()->routeIs('admin.profiles.index')">
-                            Perfiles
+                            {{ __('Perfiles') }}
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin.courses.index') }}" :active="request()->routeIs('admin.courses.index')">
-                            Cursos
+                            {{ __('Cursos') }}
                         </x-nav-link>
 
                         <x-nav-link href="{{ route('admin.subjects.index') }}" :active="request()->routeIs('admin.subjects.index')">
-                            Asignaturas
+                            {{ __('Asignaturas') }}
                         </x-nav-link>
                     @endcan
 
                     {{-- Menú Profesor --}}
                         @can('teacherAccess', Auth::user())
-                            <x-nav-link href="{{ route('showCoursesByTeacher') }}" :active="request()->routeIs('showCoursesByTeacher')">
-                                Cursos
+                            <x-nav-link href="{{ route('teacher.showCoursesByTeacher') }}" :active="request()->routeIs('teacher.showCoursesByTeacher')">
+                                {{ __('Cursos') }}
                             </x-nav-link>
 
-                            <x-nav-link href="{{ route('showExams') }}" :active="request()->routeIs('showExams')">
-                                Exámenes
+                            <x-nav-link href="{{ route('teacher.showExams') }}" :active="request()->routeIs('teacher.showExams')">
+                                {{ __('Exámenes') }}
                             </x-nav-link>
                         @endcan
 
                     
                     {{-- Menú Alumno --}}
                     @can('studentAccess', Auth::user())
-                        <x-nav-link href="{{ route('showSubjectsByStudent') }}" :active="request()->routeIs('showSubjectsByStudent')">
-                            Mis asignaturas
+                        <x-nav-link href="{{ route('student.showSubjectsByStudent') }}" :active="request()->routeIs('student.showSubjectsByStudent')">
+                            {{ __('Mis Asignaturas') }}
                         </x-nav-link>
                     @endcan
 
@@ -248,14 +248,17 @@
 
              {{-- Menú Profesor --}}
             @can('showCoursesByTeacher', Auth::user())
-                <x-nav-link :href="route('showCoursesByTeacher')" :active="request()->routeIs('showCoursesByTeacher')">
+                <x-nav-link :href="route('teacher.showCoursesByTeacher')" :active="request()->routeIs('teacher.showCoursesByTeacher')">
                     {{ __('Cursos') }}
+                </x-nav-link>
+                <x-nav-link href="{{ route('teacher.showExams') }}" :active="request()->routeIs('teacher.showExams')">
+                    {{ __('Exámenes') }}
                 </x-nav-link>
             @endcan
         
             {{-- Menú Alumno --}}
             @can('showSubjectsByStudent', Auth::user())
-                <x-nav-link :href="route('showSubjectsByStudent')" :active="request()->routeIs('showSubjectsByStudent')">
+                <x-nav-link :href="route('student.showSubjectsByStudent')" :active="request()->routeIs('student.showSubjectsByStudent')">
                     {{ __('Mis asignaturas') }}
                 </x-nav-link>
             @endcan
