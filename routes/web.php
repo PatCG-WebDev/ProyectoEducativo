@@ -85,10 +85,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('can:studentAccess')->group(function () {
         // Asignaturas del Alumno
         Route::get('subjects', [SubjectController::class, 'showSubjectsByStudent'])
-            ->name('showSubjectsByStudent');
+            ->name('student.showSubjectsByStudent');
 
         // Notas del Alumno para la asignatura
         Route::get('notes/{subject_id}', [NoteController::class, 'showNotesBySubject'])
-            ->name('showNotesBySubject');
+            ->name('student.showNotesBySubject');
     });
 });
