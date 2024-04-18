@@ -169,9 +169,9 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Account Management -->
+                            <!-- Mi cuenta -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Administrar Cuenta') }}
+                                {{ __('Mi Cuenta') }}
                             </div>
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
