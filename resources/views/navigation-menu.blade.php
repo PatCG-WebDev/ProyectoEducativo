@@ -5,21 +5,7 @@
         'route' => route('home'), /* Hay que cambiar la ruta cuando se modifique en el archivo web */
         'active' =>request()->routeIs('home') /* indicamos si el enlace está activo o no */
     ],
-    /* [
-        'name' =>'Administrador',
-        'route' => '#',
-        'active' =>false
-    ],
-    [
-        'name' =>'Profesores/as',
-        'route' => '#',
-        'active' =>false
-    ],
-    [
-        'name' =>'Alumnos/as',
-        'route' => '#',
-        'active' =>false
-    ], */
+    
 ];
 
 @endphp
@@ -51,20 +37,20 @@
 
                     @auth
                     {{-- Menú Administrador --}}
-                    @can('adminAccess', Auth::user())
-                        <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.index')">
+                    @can('administratorAccess', Auth::user())
+                        <x-nav-link href="{{ route('administrator.adminUsers') }}" :active="request()->routeIs('administrator.adminUsers')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
 
-                        <x-nav-link href="{{ route('admin.profiles.index') }}" :active="request()->routeIs('admin.profiles.index')">
+                       <x-nav-link href="{{ route('administrator.adminProfiles') }}" :active="request()->routeIs('administrator.adminProfiles')">
                             {{ __('Perfiles') }}
                         </x-nav-link>
 
-                        <x-nav-link href="{{ route('admin.courses.index') }}" :active="request()->routeIs('admin.courses.index')">
+                        <x-nav-link href="{{ route('administrator.adminCourses') }}" :active="request()->routeIs('administrator.adminCourses')">
                             {{ __('Cursos') }}
                         </x-nav-link>
 
-                        <x-nav-link href="{{ route('admin.subjects.index') }}" :active="request()->routeIs('admin.subjects.index')">
+                        <x-nav-link href="{{ route('administrator.adminSubjects') }}" :active="request()->routeIs('administrator.adminSubjects')">
                             {{ __('Asignaturas') }}
                         </x-nav-link>
                     @endcan
@@ -78,6 +64,7 @@
                             <x-nav-link href="{{ route('teacher.showExams') }}" :active="request()->routeIs('teacher.showExams')">
                                 {{ __('Exámenes') }}
                             </x-nav-link>
+
                         @endcan
 
                     
@@ -199,8 +186,8 @@
                     </x-dropdown>
 
                     @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
-                        <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Iniciar sesión</a>
+                        <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Registrarse</a>
                     @endauth
                 </div>
             </div>
@@ -231,19 +218,22 @@
             @endforeach
 
             {{-- Menú Administrador --}}
-            @can('adminAccess', Auth::user())
-            <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.index')">
-                Usuarios
-            </x-nav-link>
-            <x-nav-link href="{{ route('admin.profiles.index') }}" :active="request()->routeIs('admin.profiles.index')">
-                Perfiles
-            </x-nav-link>
-            <x-nav-link href="{{ route('admin.courses.index') }}" :active="request()->routeIs('admin.courses.index')">
-                Cursos
-            </x-nav-link>
-            <x-nav-link href="{{ route('admin.subjects.index') }}" :active="request()->routeIs('admin.subjects.index')">
-                Asignaturas
-            </x-nav-link>
+            @can('administratorAccess', Auth::user())
+                <x-nav-link href="{{ route('administrator.adminUsers') }}" :active="request()->routeIs('administrator.adminUsers')">
+                    {{ __('Usuarios') }}
+                </x-nav-link>
+
+                <x-nav-link href="{{ route('administrator.adminProfiles') }}" :active="request()->routeIs('administrator.adminProfiles')">
+                    {{ __('Perfiles') }}
+                </x-nav-link>
+
+                {{-- <x-nav-link href="{{ route('administrator.adminCourses') }}" :active="request()->routeIs('administrator.adminCourses')">
+                    {{ __('Cursos') }}
+                </x-nav-link> --}}
+
+                {{-- <x-nav-link href="{{ route('administrator.adminSubjects') }}" :active="request()->routeIs('administrator.adminSubjects')">
+                    {{ __('Asignaturas') }}
+                </x-nav-link>  --}}
             @endcan
 
              {{-- Menú Profesor --}}

@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+///////////////////  ADMINISTRATOR  //////////////////////////////////
+    public function adminUsers()
+    {
+        $users = User::all();
+        return view('administrator.adminUsers', compact('users'));
+    }
+
     public function showReports()
     {
         $users = User::all();

@@ -12,31 +12,8 @@ use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
-    public function showNotesBySubject($subjectId)
-    {
-        // Obtener el usuario logueado
-        $user = Auth::user();
 
-        // Obtener la asignatura específica
-        $subject = Subject::find($subjectId);
-
-        // Verificar si la asignatura existe y pertenece al usuario
-        if ($subject && $user->subjects->contains($subject)) {
-            // Obtener las notas para la asignatura y el usuario
-            $notes = Note::where('user_id', $user->id)
-                ->where('subject_id', $subject->id)
-                ->get();
-                
-            // Retornar la vista con las notas
-            return view('student.showNotesBySubject', compact('subject','notes'));
-        }
-
-        // Si la asignatura no existe o no pertenece al usuario, puedes redirigir o manejar el error de alguna otra manera.
-        return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
-    }
-
-
-//////////////////////////////////////////////////////
+   ////////////////////  TEACHER  ////////////////////////////////////////
     public function showAddNotesForm($subjectId)
     {
         // Obtener la asignatura específica
@@ -89,8 +66,7 @@ class NoteController extends Controller
         return redirect()->route('teacher.showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
     }
 
-    
- //////////////////////////////////////////////
+
     public function showEditNotesForm($userId, $subjectId)
     {
         // Obtener el usuario y la asignatura específicos
@@ -147,6 +123,31 @@ class NoteController extends Controller
 
         return redirect()->back()->with('message', 'Nota eliminada correctamente');
     }
+
+
+     //////////////////////  STUDENT  ///////////////////////////////////////////////
+     public function showNotesBySubject($subjectId)
+     {
+         // Obtener el usuario logueado
+         $user = Auth::user();
+ 
+         // Obtener la asignatura específica
+         $subject = Subject::find($subjectId);
+ 
+         // Verificar si la asignatura existe y pertenece al usuario
+         if ($subject && $user->subjects->contains($subject)) {
+             // Obtener las notas para la asignatura y el usuario
+             $notes = Note::where('user_id', $user->id)
+                 ->where('subject_id', $subject->id)
+                 ->get();
+                 
+             // Retornar la vista con las notas
+             return view('student.showNotesBySubject', compact('subject','notes'));
+         }
+ 
+         // Si la asignatura no existe o no pertenece al usuario, puedes redirigir o manejar el error de alguna otra manera.
+         return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
+     }
 
 }
 

@@ -12,6 +12,8 @@ use function PHPUnit\Framework\isNull;
 
 class ExamController extends Controller
 {
+
+    ///////////////  TEACHER  //////////////////////////////////////
     public function showExams(){
 
        

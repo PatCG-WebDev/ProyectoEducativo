@@ -9,6 +9,18 @@ use App\Models\Subject;
 
 class CourseController extends Controller
 {
+
+    ////////////////  ADMINISTRATOR  ////////////////////////////////////////
+
+    public function adminCourses()
+    {
+        $courses = Course::all();
+        return view('administrator.adminCourses', compact('courses'));
+    }
+
+
+
+    ////////////////  TEACHER  ////////////////////////////////////////
     public function showCoursesByTeacher()
     {
         $courses = [];
@@ -19,7 +31,6 @@ class CourseController extends Controller
         // Retornar la vista con los cursos
         return view('teacher.showCoursesByTeacher', compact('courses'));
     }
-
 
     public function showSubjectsInCourse($courseId)
     {
