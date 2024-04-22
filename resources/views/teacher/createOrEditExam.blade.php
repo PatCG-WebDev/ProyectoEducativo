@@ -3,26 +3,22 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                        <form
-                            @if(isset($exam)) 
-                                action="{{ route('teacher.updateExam', ['exam' => $exam->id]) }}" 
-                            @else 
-                                action="{{ route('teacher.saveNewExam') }}" 
-                            @endif
-                            method="POST">
-                            
+                    <form
+                        @if(isset($exam)) 
+                            action="{{ route('teacher.updateExam', ['exam' => $exam->id]) }}" 
+                        @else 
+                            action="{{ route('teacher.saveNewExam') }}" 
+                        @endif
+                        method="POST">
                         @csrf
-                        {{-- verificación de si existe examen o no para mostrar edit o create. Editar examen->PUT / Crear examen->POST --}}
                         @if(isset($exam))
                             @method('PUT')
-                            <input type="hidden" name="exam_id" value="{{ $exam->id }}"> {{-- campo oculto para poder determinar si existe o no el id del examen --}}
+                            <input type="hidden" name="exam_id" value="{{ $exam->id }}">
                         @endif
-                        
                         <div class="mb-4">
                             <label for="name" class="block text-indigo-600 font-bold">{{ __('Nombre del Examen') }}</label>
                             <input id="name" class="block mt-1 w-full" type="text" name="name" value="{{isset($exam) ? $exam->name : ''}}" required autofocus />
                         </div>
-                        
                         <div class="mb-4">
                             <label for="course" class="block text-indigo-600 font-bold">{{ __('Curso') }}</label>
                             <select id="course" name="course_id" class="block mt-1 w-full" required>
@@ -33,7 +29,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        
                         <div class="mb-4">
                             <label for="subject" class="block text-indigo-600 font-bold">{{ __('Asignatura') }}</label>
                             <select id="subject" name="subject_id" class="block mt-1 w-full" required>
@@ -46,7 +41,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="flex items-center justify-end mt-4">
                             <button class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                                 {{ isset($exam) ? __('Actualizar') : __('Guardar') }}
@@ -57,11 +51,9 @@
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Función para cargar las asignaturas
             function loadSubjects(courseId) {
                 $.ajax({
                     url: "{{ url('courses') }}" + "/" + courseId + "/get-subjects-json",
@@ -74,12 +66,8 @@
                     }
                 });
             }
-
-            // Cargar las asignaturas al cargar la página con el primer curso seleccionado
             var initialCourseId = $('#course').val();
             loadSubjects(initialCourseId);
-
-            // Evento change del elemento #course
             $('#course').on('change', function() {
                 var courseId = $(this).val();
                 loadSubjects(courseId);

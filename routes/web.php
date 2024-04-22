@@ -70,11 +70,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Rutas para la gestión de exámenes
         Route::get('exams', [ExamController::class, 'showExams'])->name('teacher.showExams');
-        Route::get('exams/{idExam}/edit', [ExamController::class, 'createOrEditExam'])->name('teacher.editExam');
-        Route::get('exams/edit', [ExamController::class, 'createOrEditExam'])->name('teacher.createExam');
+        Route::get('exams/create', [ExamController::class, 'createExam'])->name('teacher.createExam');
+        Route::post('exams', [ExamController::class, 'storeExam'])->name('teacher.storeExam');
+        Route::get('exams/edit/{idExam}', [ExamController::class, 'editExam'])->name('teacher.editExam');
+        Route::put('exams/{exam}', [ExamController::class, 'updateExam'])->name('teacher.updateExam');
+        Route::delete('exams/{exam}', [ExamController::class, 'deleteExam'])->name('teacher.deleteExam');
         Route::post('/exams', [ExamController::class, 'saveExam'])->name('teacher.saveNewExam');
-        Route::put('/exams/{exam}', [ExamController::class, 'saveExam'])->name('teacher.updateExam');
-        Route::delete('exams/delete', [ExamController::class, 'deleteExam'])->name('teacher.deleteExam');
+
 
     // Recuperar asignaturas por curso
         Route::get('courses/{course_id}/get-subjects-json', [CourseController::class, 'getSubjectJson']);

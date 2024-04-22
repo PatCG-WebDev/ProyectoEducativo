@@ -14,8 +14,7 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-3 gap-6">
-                @foreach($courses as $course)
+            @foreach($courses as $course)
                     <div class="p-6 bg-white border-b border-gray-200 sm:rounded-lg" style="width: max-content;">
                         <table class="min-w-full divide-y divide-gray-200 mb-4 rounded-lg">
                             <thead class="bg-indigo-500 text-white">
@@ -24,14 +23,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($course->exams as $exam)
+                                @foreach($examsByCourse[$course->id] as $exam)
                                     <tr class="bg-gray-50">
                                         <td class="px-6 py-4">{{ $exam->name }}</td>
                                         <td class="px-6 py-4">
                                             <a href="{{ route('teacher.editExam', ['idExam' => $exam->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">Editar</a>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <form action="{{ route('teacher.deleteExam') }}" method="POST" class="inline">
+                                            <form action="{{ route('teacher.deleteExam', ['exam' => $exam->id]) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="exam_id" value="{{ $exam->id }}">

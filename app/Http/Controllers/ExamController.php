@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use App\Models\Exam;
 use App\Models\Course;
 use App\Models\Subject;
@@ -14,68 +16,82 @@ class ExamController extends Controller
 {
 
     ///////////////  TEACHER  //////////////////////////////////////
-    public function showExams(){
-
-       
-       $user = Auth::user();
-       
-       $courses = $user->courses()->with('exams')->get();
-
-       return view('teacher.showExams', compact('courses'));
-   }
-
-
-   public function createOrEditExam($idExam = null) {
-
-        $user = Auth::user();
-        $courses = $user->courses()->get();//cursos del profesor
-
-        if ($idExam == null) {
-
-            $subjects = $courses->isNotEmpty() ? $user->subjects()->where('course_id', $courses[0]->id)->get() : collect();
-
-            return view('teacher.createOrEditExam', compact('courses', 'subjects'));     
-                   
-        } else {
-            $exam = Exam::findOrFail($idExam); //examen
-            $course = Course::findOrFail($exam->course_id); //curso del examen
-            $subjects = $user->subjects()->where('course_id', $course->id)->get(); //asignaturas del curso y profesor
-
-            return view('teacher.createOrEditExam', compact('exam', 'course', 'subjects', 'courses'));
-            
+    public function showExams()
+    {
+        $userId = Auth::id();
+        
+        // Obtiene las asignaturas asociadas al usuario
+        $user = User::findOrFail($userId);
+        $subjects = $user->subjects()->pluck('subjects.id');
+        
+        //Obtiene los exámenes asociados a las asignaturas del usuario
+        $exams = Exam::whereIn('subject_id', $subjects)->get();
+        
+        // Obtiene los cursos asociados a los exámenes
+        $courses = Course::whereIn('id', $exams->pluck('course_id'))->get();
+    
+        $examsByCourse = [];
+        foreach ($courses as $course) {
+            $examsByCourse[$course->id] = $exams->where('course_id', $course->id);
         }
+       
+        return view('teacher.showExams', compact('examsByCourse', 'courses'));
     }
 
-    public function saveExam(Request $request){
-        
+   public function createExam() {
+        $user = Auth::user();
+        $courses = $user->courses()->get();
+        $subjects = $courses->isNotEmpty() ? $user->subjects()->where('course_id', $courses[0]->id)->get() : collect();
+
+        return view('teacher.createOrEditExam', compact('courses', 'subjects'));     
+    }
+
+    public function editExam($idExam) {
+        $user = Auth::user();
+        $exam = Exam::findOrFail($idExam);
+        $course = Course::findOrFail($exam->course_id);
+        $subjects = $user->subjects()->where('course_id', $course->id)->get();
+        $courses = $user->courses()->get(); 
+
+        return view('teacher.createOrEditExam', compact('exam', 'course', 'subjects', 'courses'));
+    }
+
+
+    public function updateExam(Request $request, $id){
+
         $request->validate([
-                'name' => 'required|string|max:255',
-                'course_id' => 'required',
-                'subject_id' => 'required',
+            'name' => 'required|string|max:255',
+            'course_id' => 'required',
+            'subject_id' => 'required',
         ]);
 
-        if ($request->has('exam_id')) {
-            $exam = Exam::findOrFail($request->exam_id);
-            $exam->fill([
-                'name' => $request->name,
-                'course_id' => $request->course_id,
-                'subject_id' => $request->subject_id,
-            ]);
-            $exam->save();
+        $exam = Exam::findOrFail($id);
 
-            return redirect()->route('teacher.showExams')->with('success', 'Examen actualizado correctamente.');
+        $exam->name = $request->name;
+        $exam->course_id = $request->course_id;
+        $exam->subject_id = $request->subject_id;
 
-        }else{
+        $exam->save();
 
-            Exam::create([
-                'name' => $request->name ,
-                'course_id' => $request->course_id,
-                'subject_id' => $request->subject_id,
+        return redirect()->route('teacher.showExams')->with('success', 'Examen actualizado correctamente.');
+    }
+
+
+    public function saveExam(Request $request){
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'course_id' => 'required',
+            'subject_id' => 'required',
         ]);
 
-            return redirect()->route('teacher.showExams')->with('success', 'Examen creado correctamente.');
+        Exam::create([
+            'name' => $request->name,
+            'course_id' => $request->course_id,
+            'subject_id' => $request->subject_id,
+        ]);
 
-        }
+        return redirect()->route('teacher.showExams')->with('success', 'Examen creado correctamente.');
     }
 
 
