@@ -47,7 +47,7 @@ class NoteController extends Controller
             'comment.*' => 'nullable|string|max:255',
         ]);
 
-        // Utilizamos sólo los 
+        //sólo usuarios seleccionados
        $selectedUsers = $request->selected_users;
 
        //Iterar por los campos para guardarlos en la DDBB
