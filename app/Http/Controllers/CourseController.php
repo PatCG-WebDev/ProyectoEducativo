@@ -55,13 +55,13 @@ class CourseController extends Controller
     }
 
 
-    public function getSubjectJson($course_id){
+    public function getSubjectJson($courseId){
 
         $user = Auth::user();
 
 
         $subjects = $user->subjects()
-                    ->where('course_id', $course_id)
+                    ->where('course_id', $courseId)
                     ->select('subjects.id', 'subjects.name') // Especificamos la tabla de la columna ID
                     ->get();
                         

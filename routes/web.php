@@ -39,9 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rutas para la gestión de usuarios 
         Route::get('/users', [UserController::class, 'showUsers'])->name('administrator.adminUsers');
         Route::get('/add-user', [UserController::class, 'addUserForm'])->name('administrator.addUser');
-        Route::get('/admin-users/edit', [UserController::class, 'adminUsers'])->name('administrator.adminUsers');
-        Route::get('/update-users', [UserController::class, 'adminUsers'])->name('administrator.adminUsers');
-        Route::get('/save-users', [UserController::class, 'adminUsers'])->name('administrator.adminUsers');
+        Route::get('/users/edit/{userId}', [UserController::class, 'adminUsers'])->name('administrator.editUsers');
+        Route::post('/update-users', [UserController::class, 'adminUsers'])->name('administrator.updateUsers');
+        Route::post('/save-users', [UserController::class, 'adminUsers'])->name('administrator.saveUsers');
 
     // Rutas para la gestión de perfiles
         Route::get('/admin-profiles', [ProfileController::class, 'adminProfiles'])->name('administrator.adminProfiles');
@@ -58,8 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('can:teacherAccess')->group(function () {
     // Rutas para la gestión de cursos y asignaturas del profesor
         Route::get('courses', [CourseController::class, 'showCoursesByTeacher'])->name('teacher.showCoursesByTeacher');
-        Route::get('courses/{course_id}/subjects', [CourseController::class, 'showSubjectsInCourse'])->name('teacher.showSubjectsInCourse');
-        Route::get('users-in-subject/{subject_id}', [SubjectController::class, 'showUsersInSubject'])->name('teacher.showUsersInSubject');
+        Route::get('courses/{courseId}/subjects', [CourseController::class, 'showSubjectsInCourse'])->name('teacher.showSubjectsInCourse');
+        Route::get('users-in-subject/{subjectId}', [SubjectController::class, 'showUsersInSubject'])->name('teacher.showUsersInSubject');
 
     // Rutas para la gestión de notas
         Route::get('/add-notes/{subjectId}', [NoteController::class, 'showAddNotesForm'])->name('teacher.addNotes');
@@ -79,7 +79,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // Recuperar asignaturas por curso
-        Route::get('courses/{course_id}/get-subjects-json', [CourseController::class, 'getSubjectJson']);
+        Route::get('courses/{courseId}/get-subjects-json', [CourseController::class, 'getSubjectJson']);
 
     });
     
@@ -91,7 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('student.showSubjectsByStudent');
 
         // Notas del Alumno para la asignatura
-        Route::get('notes/{subject_id}', [NoteController::class, 'showNotesBySubject'])
+        Route::get('notes/{subjectId}', [NoteController::class, 'showNotesBySubject'])
             ->name('student.showNotesBySubject');
     });
 });
