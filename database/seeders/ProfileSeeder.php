@@ -15,9 +15,9 @@ class ProfileSeeder extends Seeder
     public function run()
     {
         $profiles = [
-            ['name' => 'Administrator'],
-            ['name' => 'Teacher'],
-            ['name' => 'Student'],
+            ['name' => 'Administrador'],
+            ['name' => 'Docente'],
+            ['name' => 'Estudiante'],
         ];
 
         DB::table('profiles')->insert($profiles);

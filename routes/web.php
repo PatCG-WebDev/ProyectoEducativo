@@ -37,20 +37,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ADMINISTRATOR
     Route::middleware('can:administratorAccess')->group(function () {
     // Rutas para la gestión de usuarios 
-        Route::get('/users', [UserController::class, 'showUsers'])->name('administrator.adminUsers');
-        Route::get('/add-user', [UserController::class, 'addUserForm'])->name('administrator.addUser');
-        Route::get('/users/edit/{userId}', [UserController::class, 'adminUsers'])->name('administrator.editUsers');
-        Route::post('/update-users', [UserController::class, 'adminUsers'])->name('administrator.updateUsers');
-        Route::post('/save-users', [UserController::class, 'adminUsers'])->name('administrator.saveUsers');
+        Route::get('/users', [UserController::class, 'showUsers'])->name('administrator.showUsers');
+        Route::get('users/add',  [UserController::class, 'addUserForm'])->name('administrator.addUserForm');
+        Route::post('users/add',  [UserController::class, 'addUser'])->name('administrator.addUser');
+        Route::get('users/edit/{userId}', [UserController::class, 'showEditUsersForm'])->name('administrator.editUser');
+        Route::put('/update-users', [UserController::class, 'updateUsers'])->name('administrator.updateUser');
+        Route::post('/save-users', [UserController::class, 'saveUsers'])->name('administrator.saveUser');
+        Route::delete('/users/delete/{userId}', [UserController::class, 'deleteUser'])->name('administrator.deleteUser');
 
     // Rutas para la gestión de perfiles
-        Route::get('/admin-profiles', [ProfileController::class, 'adminProfiles'])->name('administrator.adminProfiles');
+        Route::get('/admin-profiles', [ProfileController::class, 'adminProfiles'])->name('administrator.showProfiles');
         
     // Rutas para la gestión de cursos
-        Route::get('/admi-courses', [CourseController::class, 'adminCourses'])->name('administrator.adminCourses');
+        Route::get('/admi-courses', [CourseController::class, 'adminCourses'])->name('administrator.showCourses');
 
     // Rutas para la gestión de asignaturas
-        Route::get('/admin-subjects', [SubjectController::class, 'adminSubjects'])->name('administrator.adminSubjects');
+        Route::get('/admin-subjects', [SubjectController::class, 'adminSubjects'])->name('administrator.showSubjects');
     });
 
 
@@ -66,7 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/save-notes', [NoteController::class, 'saveNotes'])->name('teacher.saveNotes');
         Route::get('/edit-notes/{userId}/{subjectId}', [NoteController::class, 'showEditNotesForm'])->name('teacher.editNotes');
         Route::post('/update-notes', [NoteController::class, 'updateNotes'])->name('teacher.updateNotes');
-        Route::post('/delete-note', [NoteController::class, 'deleteNote'])->name('teacher.deleteNote');
+        Route::delete('/delete-note', [NoteController::class, 'deleteNote'])->name('teacher.deleteNote');
     
     // Rutas para la gestión de exámenes
         Route::get('exams', [ExamController::class, 'showExams'])->name('teacher.showExams');

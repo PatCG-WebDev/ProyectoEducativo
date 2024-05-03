@@ -38,19 +38,19 @@
                     @auth
                     {{-- Menú Administrador --}}
                     @can('administratorAccess', Auth::user())
-                        <x-nav-link href="{{ route('administrator.adminUsers') }}" :active="request()->routeIs('administrator.adminUsers')">
+                        <x-nav-link href="{{ route('administrator.showUsers') }}" :active="request()->routeIs('administrator.showUsers')">
                             {{ __('Usuarios') }}
                         </x-nav-link>
 
-                       <x-nav-link href="{{ route('administrator.adminProfiles') }}" :active="request()->routeIs('administrator.adminProfiles')">
+                       <x-nav-link href="{{ route('administrator.showProfiles') }}" :active="request()->routeIs('administrator.showProfiles')">
                             {{ __('Perfiles') }}
                         </x-nav-link>
 
-                        <x-nav-link href="{{ route('administrator.adminCourses') }}" :active="request()->routeIs('administrator.adminCourses')">
+                        <x-nav-link href="{{ route('administrator.showCourses') }}" :active="request()->routeIs('administrator.showCourses')">
                             {{ __('Cursos') }}
                         </x-nav-link>
 
-                        <x-nav-link href="{{ route('administrator.adminSubjects') }}" :active="request()->routeIs('administrator.adminSubjects')">
+                        <x-nav-link href="{{ route('administrator.showSubjects') }}" :active="request()->routeIs('administrator.showSubjects')">
                             {{ __('Asignaturas') }}
                         </x-nav-link>
                     @endcan
@@ -219,21 +219,21 @@
 
             {{-- Menú Administrador --}}
             @can('administratorAccess', Auth::user())
-                <x-nav-link href="{{ route('administrator.adminUsers') }}" :active="request()->routeIs('administrator.adminUsers')">
+                <x-nav-link href="{{ route('administrator.showUsers') }}" :active="request()->routeIs('administrator.showUsers')">
                     {{ __('Usuarios') }}
                 </x-nav-link>
 
-                <x-nav-link href="{{ route('administrator.adminProfiles') }}" :active="request()->routeIs('administrator.adminProfiles')">
+                <x-nav-link href="{{ route('administrator.showProfiles') }}" :active="request()->routeIs('administrator.showProfiles')">
                     {{ __('Perfiles') }}
                 </x-nav-link>
 
-                {{-- <x-nav-link href="{{ route('administrator.adminCourses') }}" :active="request()->routeIs('administrator.adminCourses')">
+                <x-nav-link href="{{ route('administrator.showCourses') }}" :active="request()->routeIs('administrator.showCourses')">
                     {{ __('Cursos') }}
                 </x-nav-link> --}}
 
-                {{-- <x-nav-link href="{{ route('administrator.adminSubjects') }}" :active="request()->routeIs('administrator.adminSubjects')">
+                <x-nav-link href="{{ route('administrator.showSubjects') }}" :active="request()->routeIs('administrator.showSubjects')">
                     {{ __('Asignaturas') }}
-                </x-nav-link>  --}}
+                </x-nav-link> 
             @endcan
 
              {{-- Menú Profesor --}}
