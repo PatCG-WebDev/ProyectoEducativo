@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ADMINISTRATOR
     Route::middleware('can:administratorAccess')->group(function () {
+
     // Rutas para la gestión de usuarios 
         Route::get('/users', [UserController::class, 'showUsers'])->name('administrator.showUsers');
         Route::get('users/add',  [UserController::class, 'addUserForm'])->name('administrator.addUserForm');
@@ -46,8 +47,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/users/delete/{userId}', [UserController::class, 'deleteUser'])->name('administrator.deleteUser');
 
     // Rutas para la gestión de perfiles
-        Route::get('/admin-profiles', [ProfileController::class, 'adminProfiles'])->name('administrator.showProfiles');
-        
+        Route::get('/profiles', [ProfileController::class, 'showProfiles'])->name('administrator.showProfiles');
+        Route::get('profiles/add',  [ProfileController::class, 'addProfileForm'])->name('administrator.addProfileForm');
+        Route::post('profiles/add',  [ProfileController::class, 'addProfile'])->name('administrator.addProfile');
+        Route::get('/profiles/edit/{profileId}', [ProfileController::class, 'showEditProfileForm'])->name('administrator.editProfile');
+        Route::put('/update-profile', [ProfileController::class, 'updateProfile'])->name('administrator.updateProfile');    
+        Route::delete('/profiles/delete/{profileId}', [ProfileController::class, 'deleteProfile'])->name('administrator.deleteProfile');    
+
+
     // Rutas para la gestión de cursos
         Route::get('/admi-courses', [CourseController::class, 'adminCourses'])->name('administrator.showCourses');
 

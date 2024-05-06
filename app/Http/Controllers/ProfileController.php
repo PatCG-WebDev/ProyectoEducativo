@@ -11,11 +11,72 @@ class ProfileController extends Controller
 {
     /////////////  ADMINISTRATOR  /////////////////////////////////////////
 
-    public function adminProfiles()
+    public function showProfiles()
     {
         $profiles = Profile::all();
-        return view('administrator.adminProfiles', compact('profiles'));
+        return view('administrator.adminShowProfiles', compact('profiles'));
     }
+
+    public function showEditProfileForm($profileId)
+    {
+        $profile = Profile::find($profileId);
+
+        if (!$profile) {
+            return redirect()->route('home')->with('error', 'Perfil no encontrado.');
+        }
+
+        return view('administrator.adminEditProfile', compact('profile'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'profile_id' => 'required|exists:profiles,id',
+            'name' => 'required|string|max:255',
+            // Agrega aquí las validaciones adicionales según tus necesidades
+        ]);
+
+        $profile = Profile::findOrFail($request->profile_id);
+
+        $profile->name = $request->name;
+        // Actualiza otros campos si es necesario
+
+        $profile->save();
+
+        return redirect()->route('administrator.showProfiles')->with('success', 'Perfil actualizado correctamente.');
+    }
+
+    public function addProfileForm()
+    {
+        return view('administrator.adminAddProfile');
+    }
+
+    public function addProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $profile = Profile::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('administrator.showProfiles')->with('success', 'Perfil agregado correctamente.');
+    }
+
+    public function deleteProfile($profileId)
+    {
+        $profile = Profile::find($profileId);
+
+        if (!$profile) {
+            return redirect()->route('administrator.showProfiles')->with('error', 'Perfil no encontrado.');
+        }
+
+        $profile->delete();
+
+        return redirect()->route('administrator.showProfiles')->with('success', 'Perfil eliminado correctamente.');
+    }
+
 
 
 

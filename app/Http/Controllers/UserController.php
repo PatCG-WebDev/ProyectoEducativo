@@ -75,6 +75,19 @@ class UserController extends Controller
         return redirect()->route('administrator.showUsers')->with('success', 'Usuario agregado correctamente.');
     }
 
+    public function deleteUser($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return redirect()->route('administrator.showUsers')->with('error', 'Usuario no encontrado.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('administrator.showUsers')->with('success', 'Usuario eliminado correctamente.');
+    }
+
     public function showReports()
     {
         $users = User::all();
