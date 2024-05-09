@@ -58,11 +58,31 @@
             headers.forEach(header => {
                 header.addEventListener("click", () => {
                     const orderBy = header.getAttribute("data-order");
-                    window.location.href = `{{ route('administrator.showProfiles') }}?order_by=${orderBy}`;
+                    const currentUrl = new URL(window.location.href);
+                    const currentOrderBy = currentUrl.searchParams.get("order_by");
+                    let newOrderBy;
+                    let newOrderDirection = 'asc';
+    
+                    if (currentOrderBy === orderBy) {
+                        // Si la columna ya está ordenada, cambiar la dirección del ordenamiento
+                        newOrderBy = currentOrderBy;
+                        newOrderDirection = currentUrl.searchParams.get("order_direction") === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        // Si es una nueva columna, ordenar ascendentemente
+                        newOrderBy = orderBy;
+                    }
+    
+                    currentUrl.searchParams.set("order_by", newOrderBy);
+                    currentUrl.searchParams.set("order_direction", newOrderDirection);
+                    window.location.href = currentUrl.toString();
                 });
             });
         });
     </script>
+    
+    
+    
+    
 
     
 </x-app-layout>

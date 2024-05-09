@@ -62,7 +62,26 @@
             headers.forEach(header => {
                 header.addEventListener("click", () => {
                     const orderBy = header.getAttribute("data-order");
-                    window.location.href = `{{ route('administrator.showUsers') }}?order_by=${orderBy}`;
+                    const currentUrl = new URL(window.location.href);
+                    const currentOrderBy = currentUrl.searchParams.get("order_by");
+                    const orderDirection = currentUrl.searchParams.get("order_direction") || 'asc'; // Definir la dirección de orden actual
+                    
+                    let newOrderBy;
+                    let newOrderDirection;
+
+                    if (currentOrderBy === orderBy) {
+                        // Si la columna ya está ordenada, cambiar la dirección del orden
+                        newOrderBy = orderBy;
+                        newOrderDirection = orderDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        // Si es una nueva columna, ordenar ascendente
+                        newOrderBy = orderBy;
+                        newOrderDirection = 'asc';
+                    }
+    
+                    currentUrl.searchParams.set("order_by", newOrderBy);
+                    currentUrl.searchParams.set("order_direction", newOrderDirection);
+                    window.location.href = currentUrl.toString();
                 });
             });
         });

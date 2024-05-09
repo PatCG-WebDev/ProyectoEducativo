@@ -16,16 +16,30 @@ class CourseController extends Controller
     public function showCourses(Request $request)
     {
         $orderBy = $request->input('order_by', 'id');
+        $orderDirection = 'asc'; // Por defecto, orden ascendente
+
+        // Verificar si se está ordenando en orden descendente
+        if (substr($orderBy, 0, 1) === '-') {
+            $orderDirection = 'desc';
+            $orderBy = substr($orderBy, 1); // Eliminar el '-' para obtener el nombre de la columna
+        }
+
+        // Validar la dirección del orden
+        if (!in_array($orderDirection, ['asc', 'desc'])) {
+            abort(400, 'Order direction must be "asc" or "desc".');
+        }
 
         // Ordenar los cursos según el parámetro 'order_by'
         if ($orderBy === 'name') {
-            $courses = Course::orderBy('name')->get();
+            $courses = Course::orderBy('name', $orderDirection)->get();
         } else {
-            $courses = Course::orderBy('id')->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
+            $courses = Course::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
         
         return view('administrator.adminShowCourses', compact('courses'));
     }
+
+
 
     public function showEditCourseForm($courseId)
     {

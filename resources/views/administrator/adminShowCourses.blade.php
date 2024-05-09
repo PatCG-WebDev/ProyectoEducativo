@@ -58,12 +58,28 @@
             headers.forEach(header => {
                 header.addEventListener("click", () => {
                     const orderBy = header.getAttribute("data-order");
-                    window.location.href = `{{ route('administrator.showCourses') }}?order_by=${orderBy}`;
+                    const currentUrl = new URL(window.location.href);
+                    const currentOrderBy = currentUrl.searchParams.get("order_by");
+                    let newOrderBy;
+                    let orderDirection = 'asc'; // Por defecto, orden ascendente
+        
+                    if (currentOrderBy === orderBy) {
+                        // Si la columna ya está ordenada, cambiar de ascendente a descendente o viceversa
+                        newOrderBy = currentOrderBy.startsWith("-") ? orderBy : `-${orderBy}`;
+                        orderDirection = currentOrderBy.startsWith("-") ? 'asc' : 'desc'; // Cambiar la dirección del orden
+                    } else {
+                        // Si es una nueva columna, ordenar ascendente
+                        newOrderBy = orderBy;
+                    }
+        
+                    currentUrl.searchParams.set("order_by", newOrderBy);
+                    window.location.href = currentUrl.toString();
                 });
             });
         });
     </script>
-
+    
+    
 
 
 </x-app-layout>

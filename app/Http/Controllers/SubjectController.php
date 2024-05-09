@@ -17,15 +17,18 @@ class SubjectController extends Controller
     public function showSubjects(Request $request)
     {
         $orderBy = $request->input('order_by', 'id');
-    
-        if ($orderBy === 'course') {
-            $subjects = Subject::orderBy('course_id')->get();
+        $orderDirection = $request->input('order_direction', 'asc');
+
+        // Ordenar las asignaturas según el parámetro 'order_by'
+        if ($orderBy === 'name') {
+            $subjects = Subject::orderBy('name', $orderDirection)->get();
         } else {
-            $subjects = Subject::orderBy($orderBy)->get();
+            $subjects = Subject::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
-    
+        
         return view('administrator.adminShowSubjects', compact('subjects'));
     }
+
     
     public function showEditSubjectForm($subjectId)
     {
