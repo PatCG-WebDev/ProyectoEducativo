@@ -33,11 +33,9 @@
                             <label for="subject" class="block text-indigo-600 font-bold">{{ __('Asignatura') }}</label>
                             <select id="subject" name="subject_id" class="block mt-1 w-full" required>
                                 @foreach($subjects as $subject)
-                                    @if(isset($exam) && $subject->course_id == $exam->course_id)
-                                        <option value="{{ $subject->id }}" {{ $subject->id == $exam->subject_id ? 'selected' : '' }}>
-                                            {{ $subject->name }}
-                                        </option>
-                                    @endif
+                                    <option value="{{ $subject->id }}">
+                                        {{ $subject->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -56,7 +54,7 @@
         $(document).ready(function() {
             function loadSubjects(courseId) {
                 $.ajax({
-                    url: "{{ url('courses') }}" + "/" + courseId + "/get-subjects-json",
+                    url: "{{ url('teacher/courses') }}" + "/" + courseId + "/get-subjects-json",
                     method: 'GET',
                     success: function(response) {
                         $('#subject').empty();
