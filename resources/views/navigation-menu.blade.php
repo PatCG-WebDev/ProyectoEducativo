@@ -229,7 +229,7 @@
 
                 <x-nav-link href="{{ route('administrator.showCourses') }}" :active="request()->routeIs('administrator.showCourses')">
                     {{ __('Cursos') }}
-                </x-nav-link> --}}
+                </x-nav-link>
 
                 <x-nav-link href="{{ route('administrator.showSubjects') }}" :active="request()->routeIs('administrator.showSubjects')">
                     {{ __('Asignaturas') }}

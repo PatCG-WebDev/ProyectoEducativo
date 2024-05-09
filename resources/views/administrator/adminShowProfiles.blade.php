@@ -24,8 +24,8 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-indigo-500 text-white">
                             <tr>
-                                <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('ID') }}</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Nombre') }}</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">{{ __('ID') }}</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">{{ __('Nombre') }}</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Acciones') }}</th>
                             </tr>
                         </thead>
@@ -50,4 +50,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const headers = document.querySelectorAll("th[data-order]");
+            
+            headers.forEach(header => {
+                header.addEventListener("click", () => {
+                    const orderBy = header.getAttribute("data-order");
+                    window.location.href = `{{ route('administrator.showProfiles') }}?order_by=${orderBy}`;
+                });
+            });
+        });
+    </script>
+
+    
 </x-app-layout>

@@ -7,17 +7,92 @@ use App\Models\Subject;
 use App\Models\Note;
 use App\Models\Exam;
 use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
 
     /////////////////   ADMINISTRATOR  ///////////////////////////////////////
-
-    public function adminSubjects()
+    public function showSubjects(Request $request)
     {
-        $subjects = Subject::all();
-        return view('administrator.adminSubjects', compact('subjects'));
+        $orderBy = $request->input('order_by', 'id');
+    
+        if ($orderBy === 'course') {
+            $subjects = Subject::orderBy('course_id')->get();
+        } else {
+            $subjects = Subject::orderBy($orderBy)->get();
+        }
+    
+        return view('administrator.adminShowSubjects', compact('subjects'));
+    }
+    
+    public function showEditSubjectForm($subjectId)
+    {
+        $subject = Subject::find($subjectId);
+        $courses = Course::all();
+
+        if (!$subject) {
+            return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
+        }
+
+        return view('administrator.adminEditSubject', compact('subject', 'courses'));
+    }
+
+    
+    public function updateSubject(Request $request)
+    {
+        $request->validate([
+            'subject_id' => 'required|exists:subjects,id',
+            'name' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $subject = Subject::findOrFail($request->subject_id);
+
+        $subject->name = $request->name;
+        $subject->course_id = $request->course_id;
+
+        $subject->save();
+
+        return redirect()->route('administrator.showSubjects')->with('success', 'Asignatura actualizada correctamente.');
+    }
+
+    
+    public function addSubjectForm()
+    {
+        $courses = Course::all();
+        return view('administrator.adminAddSubject', compact('courses'));
+    }
+
+
+    public function addSubject(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $subject = Subject::create([
+            'name' => $request->name,
+            'course_id' => $request->course_id,
+        ]);
+
+        return redirect()->route('administrator.showSubjects')->with('success', 'Asignatura agregada correctamente.');
+    }
+
+    
+    public function deleteSubject($subjectId)
+    {
+        $subject = Subject::find($subjectId);
+
+        if (!$subject) {
+            return redirect()->route('administrator.showSubjects')->with('error', 'Asignatura no encontrada.');
+        }
+
+        $subject->delete();
+
+        return redirect()->route('administrator.showSubjects')->with('success', 'Asignatura eliminada correctamente.');
     }
 
     ///////////////////////  TEACHER  ///////////////////////////////////////////
@@ -53,21 +128,21 @@ class SubjectController extends Controller
     }
     
     
-        private function isTeacherFromSubject($subject){
-    
-            $user = Auth::user();
-            
-            $teachers = $subject->users()->where('profile_id', 2)->get();
-    
-            foreach ($teachers as $teacher){
-    
-                if($teacher->id == $user->id){
-                    return true;
-                }
+    private function isTeacherFromSubject($subject){
+
+        $user = Auth::user();
+        
+        $teachers = $subject->users()->where('profile_id', 2)->get();
+
+        foreach ($teachers as $teacher){
+
+            if($teacher->id == $user->id){
+                return true;
             }
-            
-            return false;
         }
+        
+        return false;
+    }
 
     ///////////////////////  STUDENT  ///////////////////////////////////////////
     public function showSubjectsByStudent()

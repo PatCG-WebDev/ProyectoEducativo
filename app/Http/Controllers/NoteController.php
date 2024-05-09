@@ -63,7 +63,7 @@ class NoteController extends Controller
             
         }
 
-        return redirect()->route('teacher.showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
+        return redirect()->route('teacher.showUsersInSubject', ['subjectId' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
     }
 
 

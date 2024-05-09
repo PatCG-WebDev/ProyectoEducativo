@@ -11,9 +11,17 @@ class ProfileController extends Controller
 {
     /////////////  ADMINISTRATOR  /////////////////////////////////////////
 
-    public function showProfiles()
+    public function showProfiles(Request $request)
     {
-        $profiles = Profile::all();
+        $orderBy = $request->input('order_by', 'id');
+
+        // Ordenar los perfiles según el parámetro 'order_by'
+        if ($orderBy === 'name') {
+            $profiles = Profile::orderBy('name')->get();
+        } else {
+            $profiles = Profile::orderBy('id')->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
+        }
+        
         return view('administrator.adminShowProfiles', compact('profiles'));
     }
 

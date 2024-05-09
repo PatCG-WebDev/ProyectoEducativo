@@ -12,9 +12,21 @@ class UserController extends Controller
 {
 
     ///////////////  ADMINISTRATOR  //////////////////////////////////////
-    public function showUsers()
+    public function showUsers(Request $request)
     {
-        $users = User::all();
+        $orderBy = $request->input('order_by', 'id'); // Obtener el parámetro 'order_by' de la solicitud
+        
+        // Verificar el valor de $orderBy y ordenar en consecuencia
+        if ($orderBy === 'profile_id') {
+            $users = User::orderBy('profile_id')->get();
+        } elseif ($orderBy === 'name') {
+            $users = User::orderBy('name')->get();
+        } elseif ($orderBy === 'email') {
+            $users = User::orderBy('email')->get();
+        } else {
+            $users = User::orderBy('id')->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
+        }
+        
         return view('administrator.adminShowUsers', compact('users'));
     }
 
