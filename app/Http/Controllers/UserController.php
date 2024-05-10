@@ -24,7 +24,7 @@ class UserController extends Controller
             $users = User::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
         
-        return view('administrator.adminShowUsers', compact('users'));
+        return view('administrator.User.adminShowUsers', compact('users'));
     }
 
     public function showEditUsersForm($userId)
@@ -36,7 +36,7 @@ class UserController extends Controller
             return redirect()->route('home')->with('error', 'Usuario no encontrado.');
         }
 
-        return view('administrator.adminEditUser', compact('user', 'profiles'));
+        return view('administrator.User.adminEditUser', compact('user', 'profiles'));
     }
 
     public function updateUsers(Request $request)
@@ -62,7 +62,7 @@ class UserController extends Controller
     public function addUserForm()
     {
         $profiles = Profile::all();
-        return view('administrator.adminAddUser', compact('profiles'));
+        return view('administrator.User.adminAddUser', compact('profiles'));
     }
 
     public function addUser(Request $request)

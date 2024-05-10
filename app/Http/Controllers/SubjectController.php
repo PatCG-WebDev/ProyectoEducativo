@@ -26,7 +26,7 @@ class SubjectController extends Controller
             $subjects = Subject::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
         
-        return view('administrator.adminShowSubjects', compact('subjects'));
+        return view('administrator.Subject.adminShowSubjects', compact('subjects'));
     }
 
     
@@ -39,7 +39,7 @@ class SubjectController extends Controller
             return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
         }
 
-        return view('administrator.adminEditSubject', compact('subject', 'courses'));
+        return view('administrator.Subject.adminEditSubject', compact('subject', 'courses'));
     }
 
     
@@ -65,7 +65,7 @@ class SubjectController extends Controller
     public function addSubjectForm()
     {
         $courses = Course::all();
-        return view('administrator.adminAddSubject', compact('courses'));
+        return view('administrator.Subject.adminAddSubject', compact('courses'));
     }
 
 

@@ -26,7 +26,7 @@ class ProfileController extends Controller
     // Ordenar los perfiles según el parámetro 'order_by' y 'order_direction'
     $profiles = Profile::orderBy($orderBy, $orderDirection)->get();
     
-    return view('administrator.adminShowProfiles', compact('profiles'));
+    return view('administrator.Profile.adminShowProfiles', compact('profiles'));
 }
 
 
@@ -38,7 +38,7 @@ class ProfileController extends Controller
             return redirect()->route('home')->with('error', 'Perfil no encontrado.');
         }
 
-        return view('administrator.adminEditProfile', compact('profile'));
+        return view('administrator.Profile.adminEditProfile', compact('profile'));
     }
 
     public function updateProfile(Request $request)
@@ -61,7 +61,7 @@ class ProfileController extends Controller
 
     public function addProfileForm()
     {
-        return view('administrator.adminAddProfile');
+        return view('administrator.Profile.adminAddProfile');
     }
 
     public function addProfile(Request $request)

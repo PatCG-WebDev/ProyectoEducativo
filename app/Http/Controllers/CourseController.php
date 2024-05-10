@@ -36,7 +36,7 @@ class CourseController extends Controller
             $courses = Course::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
         
-        return view('administrator.adminShowCourses', compact('courses'));
+        return view('administrator.Course.adminShowCourses', compact('courses'));
     }
 
 
@@ -49,7 +49,7 @@ class CourseController extends Controller
             return redirect()->route('administrator.showCourses')->with('error', 'Curso no encontrado.');
         }
 
-        return view('administrator.adminEditCourse', compact('course'));
+        return view('administrator.Course.adminEditCourse', compact('course'));
     }
 
     public function updateCourse(Request $request)
@@ -74,7 +74,7 @@ class CourseController extends Controller
 
     public function addCourseForm()
     {
-        return view('administrator.adminAddCourse');
+        return view('administrator.Course.adminAddCourse');
     }
 
     public function addCourse(Request $request)
