@@ -7,7 +7,7 @@
 
                     @if ($subjects->count() > 0)
                         @foreach($subjects as $index => $subject)
-                            <a href="{{ route('teacher.showUsersInSubject', ['subjectId' => $subject->id]) }}" class="text-indigo-600 hover:text-indigo-900">
+                            <a href="{{ route('teacher.show_users_in_subject', ['subjectId' => $subject->id]) }}" class="text-indigo-600 hover:text-indigo-900">
                                 <p class="text-indigo-600 hover:text-indigo-900 font-semibold">
                                     {{ $subject->name }}
                                 </p>

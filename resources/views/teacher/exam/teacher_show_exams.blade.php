@@ -27,10 +27,10 @@
                                     <tr class="bg-gray-50">
                                         <td class="px-6 py-4">{{ $exam->name }}</td>
                                         <td class="px-6 py-4">
-                                            <a href="{{ route('teacher.editExam', ['idExam' => $exam->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">Editar</a>
+                                            <a href="{{ route('teacher.edit_exam', ['idExam' => $exam->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">Editar</a>
                                         </td>
                                         <td class="px-6 py-4">
-                                            <form action="{{ route('teacher.deleteExam', ['exam' => $exam->id]) }}" method="POST" class="inline">
+                                            <form action="{{ route('teacher.delete_exam', ['exam' => $exam->id]) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="hidden" name="exam_id" value="{{ $exam->id }}">
@@ -42,7 +42,7 @@
                             </tbody>
                         </table>
                         <div class="text-center">
-                            <form action="{{ route('teacher.createExam') }}" method="GET">
+                            <form action="{{ route('teacher.create_exam') }}" method="GET">
                                 @csrf
                                 <input type="hidden" name="course_id" value="{{ $course->id }}">
                                 <button type="submit" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Crear Examen</button>

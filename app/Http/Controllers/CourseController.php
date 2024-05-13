@@ -36,7 +36,7 @@ class CourseController extends Controller
             $courses = Course::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
         
-        return view('administrator.Course.adminShowCourses', compact('courses'));
+        return view('administrator.course.admin_show_courses', compact('courses'));
     }
 
 
@@ -49,7 +49,7 @@ class CourseController extends Controller
             return redirect()->route('administrator.showCourses')->with('error', 'Curso no encontrado.');
         }
 
-        return view('administrator.Course.adminEditCourse', compact('course'));
+        return view('administrator.course.admin_edit_course', compact('course'));
     }
 
     public function updateCourse(Request $request)
@@ -62,19 +62,19 @@ class CourseController extends Controller
         $course = Course::find($request->course_id);
     
         if (!$course) {
-            return redirect()->route('administrator.showCourses')->with('error', 'Curso no encontrado.');
+            return redirect()->route('administrator.show_courses')->with('error', 'Curso no encontrado.');
         }
     
         $course->update([
             'name' => $request->name,
         ]);
     
-        return redirect()->route('administrator.showCourses')->with('success', 'Curso actualizado correctamente.');
+        return redirect()->route('administrator.show_courses')->with('success', 'Curso actualizado correctamente.');
     }
 
     public function addCourseForm()
     {
-        return view('administrator.Course.adminAddCourse');
+        return view('administrator.course.admin_add_course');
     }
 
     public function addCourse(Request $request)
@@ -87,7 +87,7 @@ class CourseController extends Controller
             'name' => $request->name,
         ]);
     
-        return redirect()->route('administrator.showCourses')->with('success', 'Curso agregado correctamente.');
+        return redirect()->route('administrator.show_courses')->with('success', 'Curso agregado correctamente.');
     }
 
     public function deleteCourse($courseId)
@@ -95,12 +95,12 @@ class CourseController extends Controller
         $course = Course::find($courseId);
 
         if (!$course) {
-            return redirect()->route('administrator.showCourses')->with('error', 'Curso no encontrado.');
+            return redirect()->route('administrator.show_courses')->with('error', 'Curso no encontrado.');
         }
 
         $course->delete();
 
-        return redirect()->route('administrator.showCourses')->with('success', 'Curso eliminado correctamente.');
+        return redirect()->route('administrator.show_courses')->with('success', 'Curso eliminado correctamente.');
     }
 
 
@@ -114,7 +114,7 @@ class CourseController extends Controller
         $courses = $user->courses;
  
         // Retornar la vista con los cursos
-        return view('teacher.showCoursesByTeacher', compact('courses'));
+        return view('teacher.note.teacher_show_courses', compact('courses'));
     }
 
     public function showSubjectsInCourse($courseId)
@@ -130,10 +130,10 @@ class CourseController extends Controller
             // Obtener las asignaturas del usuario para el curso seleccionado
             $subjects = $user->subjects()->where('course_id', $courseId)->get();
                        
-            return view('teacher.showSubjectsInCourse', compact('course', 'subjects'));
+            return view('teacher.note.teacher_show_subjects', compact('course', 'subjects'));
         } else {
             // Si el usuario no está asociado con el curso, redirigir o mostrar un mensaje de error
-            return redirect()->route('teacher.showCoursesByTeacher')->with('error', 'No tiene permisos para ver las asignaturas de este curso.');
+            return redirect()->route('teacher.note.teacher_show_courses')->with('error', 'No tiene permisos para ver las asignaturas de este curso.');
         }
     }
 

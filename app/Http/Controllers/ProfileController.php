@@ -26,7 +26,7 @@ class ProfileController extends Controller
     // Ordenar los perfiles según el parámetro 'order_by' y 'order_direction'
     $profiles = Profile::orderBy($orderBy, $orderDirection)->get();
     
-    return view('administrator.Profile.adminShowProfiles', compact('profiles'));
+    return view('administrator.profile.admin_show_profiles', compact('profiles'));
 }
 
 
@@ -38,7 +38,7 @@ class ProfileController extends Controller
             return redirect()->route('home')->with('error', 'Perfil no encontrado.');
         }
 
-        return view('administrator.Profile.adminEditProfile', compact('profile'));
+        return view('administrator.profile.admin_edit_profile', compact('profile'));
     }
 
     public function updateProfile(Request $request)
@@ -56,12 +56,12 @@ class ProfileController extends Controller
 
         $profile->save();
 
-        return redirect()->route('administrator.showProfiles')->with('success', 'Perfil actualizado correctamente.');
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil actualizado correctamente.');
     }
 
     public function addProfileForm()
     {
-        return view('administrator.Profile.adminAddProfile');
+        return view('administrator.profile.admin_add_profile');
     }
 
     public function addProfile(Request $request)
@@ -74,7 +74,7 @@ class ProfileController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('administrator.showProfiles')->with('success', 'Perfil agregado correctamente.');
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil agregado correctamente.');
     }
 
     public function deleteProfile($profileId)
@@ -82,12 +82,12 @@ class ProfileController extends Controller
         $profile = Profile::find($profileId);
 
         if (!$profile) {
-            return redirect()->route('administrator.showProfiles')->with('error', 'Perfil no encontrado.');
+            return redirect()->route('administrator.show_profiles')->with('error', 'Perfil no encontrado.');
         }
 
         $profile->delete();
 
-        return redirect()->route('administrator.showProfiles')->with('success', 'Perfil eliminado correctamente.');
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil eliminado correctamente.');
     }
 
 

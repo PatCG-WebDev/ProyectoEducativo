@@ -3,8 +3,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
             <div class="mb-4 text-center">
-                <h1 style="font-size: 2.00rem; font-weight: bold; text-align: center;">{{ __('USUARIOS') }}</h1>
-                <a href="{{ route('administrator.addUserForm') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-2 inline-block">{{ __('Añadir Usuario') }}</a>
+                <h1 style="font-size: 2.00rem; font-weight: bold; text-align: center;">{{ __('ASIGNATURAS') }}</h1>
+                <a href="{{ route('administrator.add_subject_form') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-2 inline-block">{{ __('Añadir Asignatura') }}</a>
             </div>
             
             @if (session('success'))
@@ -25,25 +25,23 @@
                         <thead class="bg-indigo-500 text-white">
                             <tr>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">ID</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="profile_id">Profile ID</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">Nombre</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="email">Email</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="course_id">Curso</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Acciones') }}</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($users as $index => $user)
+                            @foreach($subjects as $index => $subject)
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-gray-100' }}">
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->profile_id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $subject->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $subject->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $subject->course->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('administrator.editUser', ['userId' => $user->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full">{{ __('Editar') }}</a>
-                                    <form action="{{ route('administrator.deleteUser', ['userId' => $user->id]) }}" method="POST" class="inline">
+                                    <a href="{{ route('administrator.edit_subject', ['subjectId' => $subject->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full">{{ __('Editar') }}</a>
+                                    <form action="{{ route('administrator.delete_subject', ['subjectId' => $subject->id]) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onclick="return confirm('{{ __('¿Estás seguro de que quieres eliminar este usuario?') }}')">{{ __('Eliminar') }}</button>
+                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full" onclick="return confirm('{{ __('¿Estás seguro de que quieres eliminar esta asignatura?') }}')">{{ __('Eliminar') }}</button>
                                     </form>
                                 </td>
                             </tr>
@@ -54,6 +52,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -86,6 +85,5 @@
             });
         });
     </script>
-    
 
 </x-app-layout>

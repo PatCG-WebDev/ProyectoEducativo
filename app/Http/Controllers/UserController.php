@@ -17,14 +17,25 @@ class UserController extends Controller
         $orderBy = $request->input('order_by', 'id');
         $orderDirection = $request->input('order_direction', 'asc');
 
-        // Ordenar los usuarios según el parámetro 'order_by'
+        // Cargar la relación de perfil
+        $users = User::with('profile');
+
+        // Ordenar los usuarios según el campo seleccionado
         if ($orderBy === 'name') {
-            $users = User::orderBy('name', $orderDirection)->get();
+            $users->orderBy('name', $orderDirection);
+        } elseif ($orderBy === 'email') {
+            $users->orderBy('email', $orderDirection);
+        } elseif ($orderBy === 'profile_name') {
+            // Ordenar por el nombre del perfil
+            $users->join('profiles', 'users.profile_id', '=', 'profiles.id')
+                  ->orderBy('profiles.name', $orderDirection);
         } else {
-            $users = User::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
+            $users->orderBy('id', $orderDirection); // Ordenar por defecto por 'id'
         }
         
-        return view('administrator.User.adminShowUsers', compact('users'));
+        $users = $users->get();
+        
+        return view('administrator.user.admin_show_users', compact('users'));
     }
 
     public function showEditUsersForm($userId)
@@ -36,7 +47,7 @@ class UserController extends Controller
             return redirect()->route('home')->with('error', 'Usuario no encontrado.');
         }
 
-        return view('administrator.User.adminEditUser', compact('user', 'profiles'));
+        return view('administrator.user.admin_edit_user', compact('user', 'profiles'));
     }
 
     public function updateUsers(Request $request)
@@ -56,13 +67,13 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('administrator.showUsers')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('administrator.show_users')->with('success', 'Usuario actualizado correctamente.');
     }
 
     public function addUserForm()
     {
         $profiles = Profile::all();
-        return view('administrator.User.adminAddUser', compact('profiles'));
+        return view('administrator.user.admin_add_user', compact('profiles'));
     }
 
     public function addUser(Request $request)
@@ -81,7 +92,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('administrator.showUsers')->with('success', 'Usuario agregado correctamente.');
+        return redirect()->route('administrator.show_users')->with('success', 'Usuario agregado correctamente.');
     }
 
     public function deleteUser($userId)
@@ -89,12 +100,12 @@ class UserController extends Controller
         $user = User::find($userId);
 
         if (!$user) {
-            return redirect()->route('administrator.showUsers')->with('error', 'Usuario no encontrado.');
+            return redirect()->route('administrator.show_users')->with('error', 'Usuario no encontrado.');
         }
 
         $user->delete();
 
-        return redirect()->route('administrator.showUsers')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('administrator.show_users')->with('success', 'Usuario eliminado correctamente.');
     }
 
     public function showReports()

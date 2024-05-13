@@ -26,7 +26,7 @@ class SubjectController extends Controller
             $subjects = Subject::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
         }
         
-        return view('administrator.Subject.adminShowSubjects', compact('subjects'));
+        return view('administrator.subject.admin_show_subjects', compact('subjects'));
     }
 
     
@@ -39,7 +39,7 @@ class SubjectController extends Controller
             return redirect()->route('home')->with('error', 'Asignatura no encontrada.');
         }
 
-        return view('administrator.Subject.adminEditSubject', compact('subject', 'courses'));
+        return view('administrator.subject.admin_edit_subject', compact('subject', 'courses'));
     }
 
     
@@ -58,14 +58,14 @@ class SubjectController extends Controller
 
         $subject->save();
 
-        return redirect()->route('administrator.showSubjects')->with('success', 'Asignatura actualizada correctamente.');
+        return redirect()->route('administrator.show_subjects')->with('success', 'Asignatura actualizada correctamente.');
     }
 
     
     public function addSubjectForm()
     {
         $courses = Course::all();
-        return view('administrator.Subject.adminAddSubject', compact('courses'));
+        return view('administrator.subject.admin_add_subject', compact('courses'));
     }
 
 
@@ -81,7 +81,7 @@ class SubjectController extends Controller
             'course_id' => $request->course_id,
         ]);
 
-        return redirect()->route('administrator.showSubjects')->with('success', 'Asignatura agregada correctamente.');
+        return redirect()->route('administrator.show_subjects')->with('success', 'Asignatura agregada correctamente.');
     }
 
     
@@ -90,12 +90,12 @@ class SubjectController extends Controller
         $subject = Subject::find($subjectId);
 
         if (!$subject) {
-            return redirect()->route('administrator.showSubjects')->with('error', 'Asignatura no encontrada.');
+            return redirect()->route('administrator.show_subjects')->with('error', 'Asignatura no encontrada.');
         }
 
         $subject->delete();
 
-        return redirect()->route('administrator.showSubjects')->with('success', 'Asignatura eliminada correctamente.');
+        return redirect()->route('administrator.show_subjects')->with('success', 'Asignatura eliminada correctamente.');
     }
 
     ///////////////////////  TEACHER  ///////////////////////////////////////////
@@ -122,7 +122,7 @@ class SubjectController extends Controller
                 }
             }
     
-            return view('teacher.showUsersInSubject', compact('subject', 'users', 'exams'));
+            return view('teacher.note.teacher_show_users_in_subject', compact('subject', 'users', 'exams'));
     
         } else {
     
@@ -156,7 +156,7 @@ class SubjectController extends Controller
 
 
         // Retornar la vista con las asignaturas
-        return view('student.showSubjectsByStudent', compact('subjects'));
+        return view('student.student_show_subjects', compact('subjects'));
     }
    
     

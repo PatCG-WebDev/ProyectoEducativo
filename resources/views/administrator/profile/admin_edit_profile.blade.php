@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('administrator.updateProfile') }}" method="POST">
+                    <form action="{{ route('administrator.update_profile') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="profile_id" value="{{ $profile->id }}">
@@ -38,7 +38,7 @@
 
                         <div class="flex items-center justify-end">
                             <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">{{ __('Actualizar') }}</button>
-                            <a href="{{ route('administrator.showProfiles') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4">{{ __('Cancelar') }}</a>
+                            <a href="{{ route('administrator.show_profiles') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4">{{ __('Cancelar') }}</a>
                         </div>                        
                     </form>
                 </div>
