@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+
 
 class UserController extends Controller
 {
@@ -14,28 +15,28 @@ class UserController extends Controller
     ///////////////  ADMINISTRATOR  //////////////////////////////////////
     public function showUsers(Request $request)
     {
-        $orderBy = $request->input('order_by', 'id');
+        $orderBy = $request->input('order_by', 'users.id');
         $orderDirection = $request->input('order_direction', 'asc');
 
-        // Cargar la relación de perfil
-        $users = User::with('profile');
-
-        // Ordenar los usuarios según el campo seleccionado
         if ($orderBy === 'name') {
-            $users->orderBy('name', $orderDirection);
-        } elseif ($orderBy === 'email') {
-            $users->orderBy('email', $orderDirection);
-        } elseif ($orderBy === 'profile_name') {
-            // Ordenar por el nombre del perfil
-            $users->join('profiles', 'users.profile_id', '=', 'profiles.id')
-                  ->orderBy('profiles.name', $orderDirection);
-        } else {
-            $users->orderBy('id', $orderDirection); // Ordenar por defecto por 'id'
+
+            $users = User::orderBy('name', $orderDirection)->get();
+
+        }elseif($orderBy === 'profile.name') {
+
+            $users = User::join('profiles', 'users.profile_id', '=', 'profiles.id')
+            ->select('users.*', 'profiles.name AS profile->name')
+            ->orderBy('profiles.name', $orderDirection)
+            ->get();
+        }elseif($orderBy === 'email'){
+
+            $users = User::orderBy('email', $orderDirection)->get();
+
+        }else{
+            $users = User::orderBy('id', $orderDirection)->get(); 
         }
         
-        $users = $users->get();
-        
-        return view('administrator.user.admin_show_users', compact('users'));
+        return view('administrator.user.admin_show_users', compact('users', 'orderBy'));
     }
 
     public function showEditUsersForm($userId)

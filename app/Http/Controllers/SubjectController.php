@@ -16,20 +16,28 @@ class SubjectController extends Controller
     /////////////////   ADMINISTRATOR  ///////////////////////////////////////
     public function showSubjects(Request $request)
     {
-        $orderBy = $request->input('order_by', 'id');
+        $orderBy = $request->input('order_by', 'subject.id');
         $orderDirection = $request->input('order_direction', 'asc');
 
-        // Ordenar las asignaturas según el parámetro 'order_by'
         if ($orderBy === 'name') {
+
             $subjects = Subject::orderBy('name', $orderDirection)->get();
-        } else {
-            $subjects = Subject::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
+
+        }elseif($orderBy === 'course.name') {
+
+            $subjects = Subject::join('courses', 'subjects.course_id', '=', 'courses.id')
+            ->select('subjects.*', 'courses.name AS course->name')
+            ->orderBy('courses.name', $orderDirection)
+            ->get();
+
+        }else{
+            $subjects = Subject::orderBy('id', $orderDirection)->get(); 
         }
         
         return view('administrator.subject.admin_show_subjects', compact('subjects'));
     }
 
-    
+
     public function showEditSubjectForm($subjectId)
     {
         $subject = Subject::find($subjectId);

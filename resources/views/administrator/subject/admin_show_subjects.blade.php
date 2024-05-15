@@ -26,7 +26,7 @@
                             <tr>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">ID</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">Nombre</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="course_id">Curso</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="course.name">Curso</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Acciones') }}</th>
                             </tr>
                         </thead>
@@ -35,7 +35,7 @@
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-gray-100' }}">
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $subject->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $subject->name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $subject->course->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $subject->course->name}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('administrator.edit_subject', ['subjectId' => $subject->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full">{{ __('Editar') }}</a>
                                     <form action="{{ route('administrator.delete_subject', ['subjectId' => $subject->id]) }}" method="POST" class="inline">
@@ -45,7 +45,7 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                        @endforeach                        
                         </tbody>
                     </table>
                 </div>

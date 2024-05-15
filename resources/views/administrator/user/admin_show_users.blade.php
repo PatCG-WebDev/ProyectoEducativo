@@ -24,11 +24,25 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-indigo-500 text-white">
                             <tr>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">ID</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="profile_name">Nombre del Perfil</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">Nombre</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="email">Email</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Acciones') }}</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">
+                                    ID
+                                    <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="profile.name">
+                                    Perfil
+                                    <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">
+                                    Nombre
+                                    <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="email">
+                                    Email
+                                    <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold">
+                                    Acciones
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -86,6 +100,4 @@
             });
         });
     </script>
-    
-
 </x-app-layout>
