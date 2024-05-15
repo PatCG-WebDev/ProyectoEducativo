@@ -17,25 +17,20 @@ class UserController extends Controller
     {
         $orderBy = $request->input('order_by', 'users.id');
         $orderDirection = $request->input('order_direction', 'asc');
-
-        if ($orderBy === 'name') {
-
-            $users = User::orderBy('name', $orderDirection)->get();
-
-        }elseif($orderBy === 'profile.name') {
-
-            $users = User::join('profiles', 'users.profile_id', '=', 'profiles.id')
-            ->select('users.*', 'profiles.name AS profile->name')
-            ->orderBy('profiles.name', $orderDirection)
-            ->get();
-        }elseif($orderBy === 'email'){
-
-            $users = User::orderBy('email', $orderDirection)->get();
-
-        }else{
-            $users = User::orderBy('id', $orderDirection)->get(); 
+    
+        $query = User::with('profile'); // carga los datos relacionados con profile (profile es el nombre de la función que relaciona el modelo user con el modelo profile)
+    
+        // Ordena en función del campo seleccionado
+        if ($orderBy === 'profile.name') {
+            $query->join('profiles', 'users.profile_id', '=', 'profiles.id')
+                  ->orderBy('profiles.name', $orderDirection)
+                  ->select('users.*', 'profiles.name AS profile_name');
+        } else {
+            $query->orderBy($orderBy, $orderDirection);
         }
-        
+    
+        $users = $query->get();
+    
         return view('administrator.user.admin_show_users', compact('users', 'orderBy'));
     }
 
