@@ -24,10 +24,6 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-indigo-500 text-white">
                             <tr>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">
-                                    ID
-                                    <i class="fas fa-sort"></i>
-                                </th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="profile.name">
                                     Perfil
                                     <i class="fas fa-sort"></i>
@@ -48,7 +44,6 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($users as $index => $user)
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-gray-100' }}">
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $user->profile->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>

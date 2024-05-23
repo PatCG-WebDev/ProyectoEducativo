@@ -24,7 +24,6 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-indigo-500 text-white">
                             <tr>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">{{ __('ID') }}</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">{{ __('Nombre') }}</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Acciones') }}</th>
                             </tr>
@@ -32,7 +31,6 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($courses as $index => $course)
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-gray-100' }}">
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $course->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $course->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('administrator.edit_course', ['courseId' => $course->id]) }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full">{{ __('Editar') }}</a>

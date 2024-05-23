@@ -24,7 +24,6 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-indigo-500 text-white">
                             <tr>
-                                <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="id">ID</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="name">Nombre</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold cursor-pointer" data-order="course.name">Curso</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">{{ __('Acciones') }}</th>
@@ -33,7 +32,6 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($subjects as $index => $subject)
                             <tr class="{{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-gray-100' }}">
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $subject->id }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $subject->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $subject->course->name}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
