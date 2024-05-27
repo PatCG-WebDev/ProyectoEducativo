@@ -11,25 +11,43 @@ class ProfileController extends Controller
 {
     /////////////  ADMINISTRATOR  /////////////////////////////////////////
 
+    //Muestra la lista de perfiles
     public function showProfiles(Request $request)
-{
-    $orderBy = $request->input('order_by', 'id');
-    $orderDirection = $request->input('order_direction', 'asc');
+    {
+        $orderBy = $request->input('order_by', 'id');
+        $orderDirection = $request->input('order_direction', 'asc');
 
-    // Si se desea ordenar de forma descendente, cambiar la dirección del ordenamiento
-    if ($orderDirection === 'desc') {
-        $orderDirection = 'desc';
-    } else {
-        $orderDirection = 'asc';
+        // Si se desea ordenar de forma descendente, cambiar la dirección del ordenamiento
+        if ($orderDirection === 'desc') {
+            $orderDirection = 'desc';
+        } else {
+            $orderDirection = 'asc';
+        }
+
+        // Ordenar los perfiles según el parámetro 'order_by' y 'order_direction'
+        $profiles = Profile::orderBy($orderBy, $orderDirection)->get();
+        
+        return view('administrator.profile.admin_show_profiles', compact('profiles'));
+    }
+    //Formulario para añadir nuevo perfil
+    public function addProfileForm()
+    {
+        return view('administrator.profile.admin_add_profile');
     }
 
-    // Ordenar los perfiles según el parámetro 'order_by' y 'order_direction'
-    $profiles = Profile::orderBy($orderBy, $orderDirection)->get();
-    
-    return view('administrator.profile.admin_show_profiles', compact('profiles'));
-}
+    // Añade un nuevo perfil
+    public function addProfile(Request $request)
+    {
+        $this->validateProfile($request);
 
+        $profile = new Profile();
+        $profile->name = $request->name;
+        $profile->save();
 
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil agregado correctamente.');
+    }
+
+    //Formulario para editar un perfil
     public function showEditProfileForm($profileId)
     {
         $profile = Profile::find($profileId);
@@ -41,42 +59,21 @@ class ProfileController extends Controller
         return view('administrator.profile.admin_edit_profile', compact('profile'));
     }
 
+
+    //Actualiza un perfil
     public function updateProfile(Request $request)
     {
-        $request->validate([
-            'profile_id' => 'required|exists:profiles,id',
-            'name' => 'required|string|max:255',
-            // Agrega aquí las validaciones adicionales según tus necesidades
-        ]);
+        $this->validateProfile($request, $request->profile_id);
 
         $profile = Profile::findOrFail($request->profile_id);
-
         $profile->name = $request->name;
-        // Actualiza otros campos si es necesario
-
         $profile->save();
 
         return redirect()->route('administrator.show_profiles')->with('success', 'Perfil actualizado correctamente.');
     }
 
-    public function addProfileForm()
-    {
-        return view('administrator.profile.admin_add_profile');
-    }
-
-    public function addProfile(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        $profile = Profile::create([
-            'name' => $request->name,
-        ]);
-
-        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil agregado correctamente.');
-    }
-
+    
+    //Elimina un perfil
     public function deleteProfile($profileId)
     {
         $profile = Profile::find($profileId);
@@ -91,9 +88,23 @@ class ProfileController extends Controller
     }
 
 
+    //Valida datos del perfil
+    private function validateProfile(Request $request, $profileId = null)
+    {
+        $rules = [
+            'name' => 'required|string|max:255|unique:profiles,name' . ($profileId ? ',' . $profileId : ''),
+        ];
+
+        $messages = [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.unique' => 'El nombre del perfil ya está en uso.',
+        ];
+
+        $request->validate($rules, $messages);
+    }
 
 
-    ////////   PERFIL Ususario  /////////////////////////////////////////////
+    ////////   PERFIL USUARIO  /////////////////////////////////////////////
     public function updateProfileInformation(Request $request)
     {
         $user = Auth::user();

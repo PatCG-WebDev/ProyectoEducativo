@@ -13,12 +13,12 @@ class CourseController extends Controller
 
     ////////////////  ADMINISTRATOR  ////////////////////////////////////////
 
+    //Muestra la lista de cursos
     public function showCourses(Request $request)
     {
         $orderBy = $request->input('order_by', 'id');
-        $orderDirection = 'asc'; // Por defecto, orden ascendente
-
-        // Verificar si se está ordenando en orden descendente
+        $orderDirection = $request->input('order_direction', 'asc');
+        /* // Verificar si se está ordenando en orden descendente
         if (substr($orderBy, 0, 1) === '-') {
             $orderDirection = 'desc';
             $orderBy = substr($orderBy, 1); // Eliminar el '-' para obtener el nombre de la columna
@@ -27,7 +27,7 @@ class CourseController extends Controller
         // Validar la dirección del orden
         if (!in_array($orderDirection, ['asc', 'desc'])) {
             abort(400, 'Order direction must be "asc" or "desc".');
-        }
+        } */
 
         // Ordenar los cursos según el parámetro 'order_by'
         if ($orderBy === 'name') {
@@ -40,43 +40,13 @@ class CourseController extends Controller
     }
 
 
-
-    public function showEditCourseForm($courseId)
-    {
-        $course = Course::find($courseId);
-
-        if (!$course) {
-            return redirect()->route('administrator.showCourses')->with('error', 'Curso no encontrado.');
-        }
-
-        return view('administrator.course.admin_edit_course', compact('course'));
-    }
-
-    public function updateCourse(Request $request)
-    {
-        $request->validate([
-            'course_id' => 'required',
-            'name' => 'required|string|max:255',
-        ]);
-    
-        $course = Course::find($request->course_id);
-    
-        if (!$course) {
-            return redirect()->route('administrator.show_courses')->with('error', 'Curso no encontrado.');
-        }
-    
-        $course->update([
-            'name' => $request->name,
-        ]);
-    
-        return redirect()->route('administrator.show_courses')->with('success', 'Curso actualizado correctamente.');
-    }
-
+    //Formulario para añadir nuevo curso
     public function addCourseForm()
     {
         return view('administrator.course.admin_add_course');
     }
 
+    //Añade un nuevo curso
     public function addCourse(Request $request)
     {
         $request->validate([
@@ -90,6 +60,32 @@ class CourseController extends Controller
         return redirect()->route('administrator.show_courses')->with('success', 'Curso agregado correctamente.');
     }
 
+    //Formulario para editar un curso
+    public function showEditCourseForm($courseId)
+    {
+        $course = Course::find($courseId);
+
+        if (!$course) {
+            return redirect()->route('administrator.showCourses')->with('error', 'Curso no encontrado.');
+        }
+
+        return view('administrator.course.admin_edit_course', compact('course'));
+    }
+
+    //Actualiza un curso
+    public function updateCourse(Request $request)
+    {
+        $this->validateProfile($request, $request->course_id);
+
+        $course = Course::findOrFail($request->course_id);
+        $course->name = $request->name;
+        $course->save();
+    
+        return redirect()->route('administrator.show_courses')->with('success', 'Curso actualizado correctamente.');
+    }
+
+    
+    //Elimina un curso
     public function deleteCourse($courseId)
     {
         $course = Course::find($courseId);
@@ -101,6 +97,21 @@ class CourseController extends Controller
         $course->delete();
 
         return redirect()->route('administrator.show_courses')->with('success', 'Curso eliminado correctamente.');
+    }
+
+    //Valida datos del curso
+    private function validateProfile(Request $request, $profileId = null)
+    {
+        $rules = [
+            'name' => 'required|string|max:255|unique:profiles,name' . ($profileId ? ',' . $profileId : ''),
+        ];
+
+        $messages = [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.unique' => 'El nombre del perfil ya está en uso.',
+        ];
+
+        $request->validate($rules, $messages);
     }
 
 

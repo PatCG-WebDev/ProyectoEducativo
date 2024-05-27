@@ -14,6 +14,8 @@ class SubjectController extends Controller
 {
 
     /////////////////   ADMINISTRATOR  ///////////////////////////////////////
+
+    //Muestra la lista de usuarios
     public function showSubjects(Request $request)
     {
         $orderBy = $request->input('order_by', 'subjects.id');
@@ -21,7 +23,6 @@ class SubjectController extends Controller
 
         $query = Subject::with('course');// carga los datos relacionados con course (course es el nombre de la función que relaciona el modelo subject con el modelo course)
 
-        // Ordena en función del campo seleccionado
         if ($orderBy === 'course.name') {
             $query->join('courses', 'subjects.course_id', '=', 'courses.id')
                 ->orderBy('courses.name', $orderDirection)
@@ -34,6 +35,8 @@ class SubjectController extends Controller
 
         return view('administrator.subject.admin_show_subjects', compact('subjects'));
     }
+
+    
 
     public function showEditSubjectForm($subjectId)
     {
