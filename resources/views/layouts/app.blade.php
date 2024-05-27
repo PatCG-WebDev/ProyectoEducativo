@@ -20,6 +20,9 @@
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Styles -->
     @livewireStyles
 
@@ -28,12 +31,40 @@
         a {
             text-decoration: none;
         }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
     </style>
 </head>
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-light">
         @livewire('navigation-menu')
 
         <!-- Page Content -->

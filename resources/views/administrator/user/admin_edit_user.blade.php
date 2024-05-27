@@ -30,7 +30,7 @@
 
                         <div class="mb-4">
                             <label for="profile_id" class="block text-sm font-medium text-gray-700">{{ __('Perfil') }}</label>
-                            <select name="profile_id" id="profile_id" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                            <select name="profile_id" id="profile_id" class="form-select mt-1 block w-full">
                                 @foreach($profiles as $profile)
                                     <option value="{{ $profile->id }}" {{ $user->profile_id == $profile->id ? 'selected' : '' }}>{{ $profile->name }}</option>
                                 @endforeach
@@ -42,7 +42,7 @@
 
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-700">{{ __('Nombre') }}</label>
-                            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="form-input mt-1 block w-full">
                             @error('name')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -50,15 +50,15 @@
 
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-gray-700">{{ __('Email') }}</label>
-                            <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                            <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="form-input mt-1 block w-full">
                             @error('email')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <div class="flex items-center justify-end">
-                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">{{ __('Actualizar') }}</button>
-                            <a href="{{ route('administrator.show_users') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4">{{ __('Cancelar') }}</a>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" style="background-color: #3b82f6; margin-right: 8px;">{{ __('Actualizar') }}</button>
+                            <a href="{{ route('administrator.show_users') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">{{ __('Cancelar') }}</a>
                         </div>                        
                     </form>
                 </div>
