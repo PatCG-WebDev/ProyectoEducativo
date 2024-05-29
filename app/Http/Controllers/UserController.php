@@ -6,43 +6,45 @@ use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
-    // Muestra la lista de usuarios
+    // Muestra usuarios
     public function showUsers(Request $request)
     {
-        $orderBy = $request->input('order_by', 'users.id');
-        $orderDirection = $request->input('order_direction', 'asc');
+        $query = User::with('profile'); //obtener users y su relación con profiles
 
-        $validOrderFields = ['users.id', 'users.name', 'users.email', 'profiles.name'];
-        if (!in_array($orderBy, $validOrderFields)) {
-            $orderBy = 'users.id';
-        }
-
-        $query = User::with('profile');
-
-        if ($orderBy === 'profiles.name') {
+        //Obtiene los parámetros de ordenación de la solicitud HTTP, si no los tiene utiliza los siguientes parámetros predeterminados:
+        $orderBy = $request->input('order_by', 'users.id'); //campo predeterminado id
+        $orderDirection = $request->input('order_direction', 'asc'); //dirección predeterminada asc.
+    
+        
+        $validOrderFields = ['users.id', 'users.name', 'users.email', 'profiles.name']; //Definir los campos por los que se puede ordenar.
+        $orderBy = in_array($orderBy, $validOrderFields) ? $orderBy : 'users.id'; //Definir si el campo de ordenamiento es válido, si no lo es ordenar por id
+    
+        if ($orderBy === 'profiles.name') { //Cuando el campo de ordenación es profiles, hacemos la unión entre las 2 tablas.
             $query->join('profiles', 'users.profile_id', '=', 'profiles.id')
                 ->orderBy('profiles.name', $orderDirection)
                 ->select('users.*', 'profiles.name AS profile_name');
         } else {
             $query->orderBy($orderBy, $orderDirection);
         }
-
-        $users = $query->paginate(10); // Paginación, 10 resultados por página
-
+    
+        $users = $query->paginate(10);
+    
         return view('administrator.user.admin_show_users', compact('users', 'orderBy', 'orderDirection'));
     }
+    
 
-    // Formulario para añadir un nuevo usuario
+    // Formulario añadir usuario
     public function addUserForm()
     {
         $profiles = Profile::all();
         return view('administrator.user.admin_add_user', compact('profiles'));
     }
 
-    // Añade un nuevo usuario
+    // Añade usuario
     public function addUser(Request $request)
     {
         $this->validateUser($request);
@@ -54,10 +56,17 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('administrator.show_users')->with('success', 'Usuario agregado correctamente.');
+        // Obtener posición del NUEVO usuario en la lista ordenada por ID ascendente
+        $userPosition = User::where('id', '<=', $user->id)->count();
+
+        // Calcular la página en la que se encuentra el nuevo usuario
+        $itemsPerPage = 10; 
+        $userPage = ceil($userPosition / $itemsPerPage);
+
+        return Redirect::route('administrator.show_users', ['page' => $userPage])->with('success', 'Asignatura agregada correctamente.');
     }
 
-    // Formulario para editar un usuario
+    // Formulario editar usuario
     public function showEditUsersForm($userId)
     {
         $user = User::findOrFail($userId);
@@ -66,7 +75,7 @@ class UserController extends Controller
         return view('administrator.user.admin_edit_user', compact('user', 'profiles'));
     }
 
-    // Actualiza un usuario
+    // Actualiza usuario
     public function updateUsers(Request $request)
     {
         $this->validateUser($request, $request->user_id);
@@ -80,10 +89,18 @@ class UserController extends Controller
         
         $user->update($userData);
 
-        return redirect()->route('administrator.show_users')->with('success', 'Usuario actualizado correctamente.');
+        // Obtener posición del usuario actualizado en la lista ordenada por ID ascendente
+        $userPosition = User::where('id', '<=', $user->id)->count();
+
+        // Calcular página en la que se encuentra el usuario actualizado
+        $itemsPerPage = 10; 
+        $userPage = ceil($userPosition / $itemsPerPage);
+
+        // Redirigir al usuario a la página de la paginación donde se encuentra el usuario actualizado
+        return redirect()->route('administrator.show_users', ['page' => $userPage])->with('success', 'Usuario actualizado correctamente.');
     }
 
-    // Elimina un usuario
+    // Elimina usuario
     public function deleteUser($userId)
     {
         $user = User::findOrFail($userId);

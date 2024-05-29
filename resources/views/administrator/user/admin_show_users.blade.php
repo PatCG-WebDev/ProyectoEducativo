@@ -12,31 +12,34 @@
             <table class="table table-striped table-hover">
                 <thead class="thead-dark">
                     <tr>
-                        <th>
+                        <th style="text-align: center;">
                             <a href="{{ route('administrator.show_users', ['order_by' => 'profiles.name', 'order_direction' => $orderBy === 'profiles.name' && $orderDirection === 'asc' ? 'desc' : 'asc']) }}" class="text-white">
                                 {{ __('Perfil') }}
+                                <x-order-arrow :orderBy="$orderBy" :currentOrderBy="'profiles.name'" :orderDirection="$orderDirection" />
                             </a>
                         </th>
-                        <th>
+                        <th style="text-align: center;">
                             <a href="{{ route('administrator.show_users', ['order_by' => 'users.name', 'order_direction' => $orderBy === 'users.name' && $orderDirection === 'asc' ? 'desc' : 'asc']) }}" class="text-white">
                                 {{ __('Nombre') }}
+                                <x-order-arrow :orderBy="$orderBy" :currentOrderBy="'users.name'" :orderDirection="$orderDirection" />
                             </a>
                         </th>
-                        <th>
+                        <th style="text-align: center;">
                             <a href="{{ route('administrator.show_users', ['order_by' => 'users.email', 'order_direction' => $orderBy === 'users.email' && $orderDirection === 'asc' ? 'desc' : 'asc']) }}" class="text-white">
                                 {{ __('Email') }}
+                                <x-order-arrow :orderBy="$orderBy" :currentOrderBy="'users.email'" :orderDirection="$orderDirection" />
                             </a>
                         </th>
-                        <th>{{ __('Acciones') }}</th>
+                        <th style="text-align: center;">{{ __('Acciones') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($users as $user)
                     <tr>
-                        <td>{{ $user->profile->name }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
+                        <td style="text-align: center;">{{ $user->profile->name }}</td>
+                        <td style="text-align: center;">{{ $user->name }}</td>
+                        <td style="text-align: center;">{{ $user->email }}</td>
+                        <td style="text-align: center;">
                             <a href="{{ route('administrator.edit_user', ['userId' => $user->id]) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
@@ -55,7 +58,7 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-3">
-                {{ $users->links('vendor.pagination.bootstrap-4') }}
+            {{ $users->links('vendor.pagination.bootstrap-4') }}
         </div>
     </div>
 </x-app-layout>

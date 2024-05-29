@@ -37,9 +37,9 @@
                         </div>
 
                         <div class="flex items-center justify-end">
-                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mr-2">{{ __('Actualizar') }}</button>
-                            <a href="{{ route('administrator.show_courses') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4">{{ __('Cancelar') }}</a>
-                        </div>                        
+                            <button type="submit" class="btn btn-primary">{{ __('Actualizar') }}</button>
+                            <a href="{{ route('administrator.show_courses') }}" class="btn btn-secondary ml-4">{{ __('Cancelar') }}</a>
+                        </div>
                     </form>
                 </div>
             </div>

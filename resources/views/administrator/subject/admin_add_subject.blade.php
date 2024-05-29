@@ -2,14 +2,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-black py-2 px-4 mb-4 text-white text-center">
+                    <h2 class="text-2xl font-semibold mb-0">{{ __('Añadir Asignatura') }}</h2>
+                </div>
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h2 class="text-2xl font-semibold mb-4">{{ __('Añadir Asignatura') }}</h2>
-
-                    @if (session('success'))
-                        <div class="bg-green-200 text-green-800 px-4 py-2 rounded-md mb-4">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <x-alert type="success" />
+                    <x-alert type="error" />
 
                     <form action="{{ route('administrator.add_subject') }}" method="POST">
                         @csrf

@@ -14,21 +14,18 @@ class ProfileController extends Controller
     //Muestra la lista de perfiles
     public function showProfiles(Request $request)
     {
-        $orderBy = $request->input('order_by', 'id');
+        //Obtiene los parámetros de ordenación de la solicitud HTTP, si no los tiene utiliza los siguientes parámetros predeterminados:
+        $orderBy = $request->input('order_by', 'profiles.id');
         $orderDirection = $request->input('order_direction', 'asc');
-
-        // Si se desea ordenar de forma descendente, cambiar la dirección del ordenamiento
-        if ($orderDirection === 'desc') {
-            $orderDirection = 'desc';
-        } else {
-            $orderDirection = 'asc';
-        }
-
-        // Ordenar los perfiles según el parámetro 'order_by' y 'order_direction'
-        $profiles = Profile::orderBy($orderBy, $orderDirection)->get();
-        
-        return view('administrator.profile.admin_show_profiles', compact('profiles'));
+    
+        $validOrderFields = ['profiles.id', 'profiles.name']; //Definir los campos por los que se puede ordenar.
+        $orderBy = in_array($orderBy, $validOrderFields) ? $orderBy : 'profiles.id'; //Definir si el campo de ordenamiento es válido, si no lo es ordenar por id
+    
+        $profiles = Profile::orderBy($orderBy, $orderDirection)->paginate(10);
+    
+        return view('administrator.profile.admin_show_profiles', compact('profiles', 'orderBy', 'orderDirection'));
     }
+
     //Formulario para añadir nuevo perfil
     public function addProfileForm()
     {

@@ -16,29 +16,18 @@ class CourseController extends Controller
     //Muestra la lista de cursos
     public function showCourses(Request $request)
     {
-        $orderBy = $request->input('order_by', 'id');
+
+        //Obtiene los parámetros de ordenación de la solicitud HTTP, si no los tiene utiliza los siguientes parámetros predeterminados:
+        $orderBy = $request->input('order_by', 'courses.id');
         $orderDirection = $request->input('order_direction', 'asc');
-        /* // Verificar si se está ordenando en orden descendente
-        if (substr($orderBy, 0, 1) === '-') {
-            $orderDirection = 'desc';
-            $orderBy = substr($orderBy, 1); // Eliminar el '-' para obtener el nombre de la columna
-        }
 
-        // Validar la dirección del orden
-        if (!in_array($orderDirection, ['asc', 'desc'])) {
-            abort(400, 'Order direction must be "asc" or "desc".');
-        } */
+        $validOrderFields = ['courses.id', 'courses.name']; //Definir los campos por los que se puede ordenar.
+        $orderBy = in_array($orderBy, $validOrderFields) ? $orderBy : 'courses.id'; //Definir si el campo de ordenamiento es válido, si no lo es ordenar por id
 
-        // Ordenar los cursos según el parámetro 'order_by'
-        if ($orderBy === 'name') {
-            $courses = Course::orderBy('name', $orderDirection)->get();
-        } else {
-            $courses = Course::orderBy('id', $orderDirection)->get(); // Ordenar por defecto por 'id' si no se especifica otro campo
-        }
-        
-        return view('administrator.course.admin_show_courses', compact('courses'));
+        $courses = Course::orderBy($orderBy, $orderDirection)->paginate(10);
+
+        return view('administrator.course.admin_show_courses', compact('courses', 'orderBy', 'orderDirection'));
     }
-
 
     //Formulario para añadir nuevo curso
     public function addCourseForm()
