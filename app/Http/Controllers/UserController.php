@@ -15,6 +15,20 @@ class UserController extends Controller
     {
         $query = User::with('profile'); //obtener users y su relación con profiles
 
+        // Obtener el término de búsqueda del formulario
+        $search = $request->input('search');
+
+        // Aplicar filtro de búsqueda si se proporciona un término de búsqueda
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('users.name', 'like', '%' . $search . '%')
+                ->orWhere('users.email', 'like', '%' . $search . '%')
+                ->orWhereHas('profile', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+            });
+        }
+
         //Obtiene los parámetros de ordenación de la solicitud HTTP, si no los tiene utiliza los siguientes parámetros predeterminados:
         $orderBy = $request->input('order_by', 'users.id'); //campo predeterminado id
         $orderDirection = $request->input('order_direction', 'asc'); //dirección predeterminada asc.

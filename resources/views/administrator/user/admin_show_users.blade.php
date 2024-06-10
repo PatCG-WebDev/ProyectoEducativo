@@ -1,3 +1,5 @@
+@livewireStyles
+
 <x-app-layout>
     <div class="container py-4">
         <div class="text-center mb-4">
@@ -7,6 +9,8 @@
 
         <x-alert type="success" />
         <x-alert type="error" />
+
+        {{-- @livewire('user-search', ['users' => $users], key($users->currentPage())) --}}
 
         <div class="table-responsive">
             <table class="table table-striped table-hover">
@@ -62,3 +66,5 @@
         </div>
     </div>
 </x-app-layout>
+
+@livewireScripts
