@@ -11,15 +11,97 @@ class ProfileController extends Controller
 {
     /////////////  ADMINISTRATOR  /////////////////////////////////////////
 
-    public function adminProfiles()
+    //Muestra la lista de perfiles
+    public function showProfiles(Request $request)
     {
-        $profiles = Profile::all();
-        return view('administrator.adminProfiles', compact('profiles'));
+        //Obtiene los parámetros de ordenación de la solicitud HTTP, si no los tiene utiliza los siguientes parámetros predeterminados:
+        $orderBy = $request->input('order_by', 'profiles.id');
+        $orderDirection = $request->input('order_direction', 'asc');
+    
+        $validOrderFields = ['profiles.id', 'profiles.name']; //Definir los campos por los que se puede ordenar.
+        $orderBy = in_array($orderBy, $validOrderFields) ? $orderBy : 'profiles.id'; //Definir si el campo de ordenamiento es válido, si no lo es ordenar por id
+    
+        $profiles = Profile::orderBy($orderBy, $orderDirection)->paginate(10);
+    
+        return view('administrator.profile.admin_show_profiles', compact('profiles', 'orderBy', 'orderDirection'));
+    }
+
+    //Formulario para añadir nuevo perfil
+    public function addProfileForm()
+    {
+        return view('administrator.profile.admin_add_profile');
+    }
+
+    // Añade un nuevo perfil
+    public function addProfile(Request $request)
+    {
+        $this->validateProfile($request);
+
+        $profile = new Profile();
+        $profile->name = $request->name;
+        $profile->save();
+
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil agregado correctamente.');
+    }
+
+    //Formulario para editar un perfil
+    public function showEditProfileForm($profileId)
+    {
+        $profile = Profile::find($profileId);
+
+        if (!$profile) {
+            return redirect()->route('home')->with('error', 'Perfil no encontrado.');
+        }
+
+        return view('administrator.profile.admin_edit_profile', compact('profile'));
     }
 
 
+    //Actualiza un perfil
+    public function updateProfile(Request $request)
+    {
+        $this->validateProfile($request, $request->profile_id);
 
-    ////////   PERFIL Ususario  /////////////////////////////////////////////
+        $profile = Profile::findOrFail($request->profile_id);
+        $profile->name = $request->name;
+        $profile->save();
+
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil actualizado correctamente.');
+    }
+
+    
+    //Elimina un perfil
+    public function deleteProfile($profileId)
+    {
+        $profile = Profile::find($profileId);
+
+        if (!$profile) {
+            return redirect()->route('administrator.show_profiles')->with('error', 'Perfil no encontrado.');
+        }
+
+        $profile->delete();
+
+        return redirect()->route('administrator.show_profiles')->with('success', 'Perfil eliminado correctamente.');
+    }
+
+
+    //Valida datos del perfil
+    private function validateProfile(Request $request, $profileId = null)
+    {
+        $rules = [
+            'name' => 'required|string|max:255|unique:profiles,name' . ($profileId ? ',' . $profileId : ''),
+        ];
+
+        $messages = [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.unique' => 'El nombre del perfil ya está en uso.',
+        ];
+
+        $request->validate($rules, $messages);
+    }
+
+
+    ////////   PERFIL USUARIO  /////////////////////////////////////////////
     public function updateProfileInformation(Request $request)
     {
         $user = Auth::user();

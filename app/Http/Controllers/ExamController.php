@@ -35,7 +35,7 @@ class ExamController extends Controller
             $examsByCourse[$course->id] = $exams->where('course_id', $course->id);
         }
        
-        return view('teacher.showExams', compact('examsByCourse', 'courses'));
+        return view('teacher.exam.teacher_show_exams', compact('examsByCourse', 'courses'));
     }
 
    public function createExam() {
@@ -43,7 +43,7 @@ class ExamController extends Controller
         $courses = $user->courses()->get();
         $subjects = $courses->isNotEmpty() ? $user->subjects()->where('course_id', $courses[0]->id)->get() : collect();
 
-        return view('teacher.createOrEditExam', compact('courses', 'subjects'));     
+        return view('teacher.exam.teacher_create_exam', compact('courses', 'subjects'));     
     }
 
     public function editExam($idExam) {
@@ -53,7 +53,7 @@ class ExamController extends Controller
         $subjects = $user->subjects()->where('course_id', $course->id)->get();
         $courses = $user->courses()->get(); 
 
-        return view('teacher.createOrEditExam', compact('exam', 'course', 'subjects', 'courses'));
+        return view('teacher.exam.teacher_edit_exam', compact('exam', 'course', 'subjects', 'courses'));
     }
 
 
@@ -73,7 +73,7 @@ class ExamController extends Controller
 
         $exam->save();
 
-        return redirect()->route('teacher.showExams')->with('success', 'Examen actualizado correctamente.');
+        return redirect()->route('teacher.show_exams')->with('success', 'Examen actualizado correctamente.');
     }
 
 
@@ -91,7 +91,7 @@ class ExamController extends Controller
             'subject_id' => $request->subject_id,
         ]);
 
-        return redirect()->route('teacher.showExams')->with('success', 'Examen creado correctamente.');
+        return redirect()->route('teacher.show_exams')->with('success', 'Examen creado correctamente.');
     }
 
 

@@ -31,7 +31,7 @@
                                             {{ $subject->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                            <a href="{{ route('student.showNotesBySubject', ['subjectId' => $subject->id]) }}" class="text-indigo-600 hover:text-indigo-900">Ver Notas</a>
+                                            <a href="{{ route('student.show_notes_by_subject', ['subjectId' => $subject->id]) }}" class="text-indigo-600 hover:text-indigo-900">Ver Notas</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -1,4 +1,6 @@
 <x-app-layout>
+
+    INICIO
 </x-app-layout>
 
 {{-- <!DOCTYPE html>

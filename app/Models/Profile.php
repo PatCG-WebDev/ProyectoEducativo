@@ -9,6 +9,10 @@ class Profile extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     
 //Relación uno a muchos
 public function users(){

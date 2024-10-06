@@ -32,7 +32,7 @@ class NoteController extends Controller
         $exams = Exam::where('subject_id', $subjectId)->get();
 
         // Retornar la vista para añadir notas
-        return view('teacher.addNotes', compact('subject', 'users', 'exams'));
+        return view('teacher.note.teacher_add_notes', compact('subject', 'users', 'exams'));
     }
     
 
@@ -63,29 +63,28 @@ class NoteController extends Controller
             
         }
 
-        return redirect()->route('teacher.showUsersInSubject', ['subject_id' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
+        return redirect()->route('teacher.show_users_in_subject', ['subjectId' => $request->subject_id])->with('message', 'Notas añadidas correctamente');
     }
 
 
     public function showEditNotesForm($userId, $subjectId)
     {
-        // Obtener el usuario y la asignatura específicos
         $user = User::find($userId);
         $subject = Subject::find($subjectId);
 
-        // Verificar si el usuario y la asignatura existen
+        // comprobar si existen usuario y asignatura
         if (!$user || !$subject) {
             // Si no existen, puedes redirigir o manejar el error de alguna otra manera.
             return redirect()->route('home')->with('error', 'Usuario o asignatura no encontrados.');
         }
 
-        // Obtener las notas del usuario para la asignatura
+        // obtener notas del usuario para la asignatura
         $notes = Note::where('user_id', $user->id)
                     ->where('subject_id', $subject->id)
                     ->get();
 
-        // Retornar la vista para editar las notas
-        return view('teacher.editNotes', compact('user', 'subject', 'notes'));
+        
+        return view('teacher.note.teacher_edit_notes', compact('user', 'subject', 'notes'));
     }
 
     public function updateNotes(Request $request)
@@ -142,7 +141,7 @@ class NoteController extends Controller
                  ->get();
                  
              // Retornar la vista con las notas
-             return view('student.showNotesBySubject', compact('subject','notes'));
+             return view('student.student_show_notes_by_subject', compact('subject','notes'));
          }
  
          // Si la asignatura no existe o no pertenece al usuario, puedes redirigir o manejar el error de alguna otra manera.

@@ -4,7 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-
+use App\View\Components\Alert;
+use Illuminate\Support\Facades\Blade;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -20,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::component('alert', Alert::class);
         
     }
 }

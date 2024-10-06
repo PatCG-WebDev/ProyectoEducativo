@@ -29,13 +29,13 @@
                                         </td>
                                     @endforeach
                                     <td class="px-6 py-4 text-center">
-                                        <a href="{{ route('teacher.editNotes', ['userId' => $user->id, 'subjectId' => $subject->id]) }}" class="text-indigo-600 hover:text-indigo-900">Modificar</a>
+                                        <a href="{{ route('teacher.edit_notes', ['userId' => $user->id, 'subjectId' => $subject->id]) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4" onclick">Modificar</a>
                                     </td>
                                 </tr>
                             @endforeach   
                         </tbody>
                     </table>
-                    <a href="{{ route('teacher.addNotes', ['subjectId' => $subject->id]) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4">Añadir notas</a>
+                    <a href="{{ route('teacher.add_notes', ['subjectId' => $subject->id]) }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4">Añadir notas</a>
                 </div>
             </div>
         </div>
